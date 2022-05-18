@@ -9,7 +9,7 @@
 /// シンプルなUndoスタック
 public class UndoStack<Command> {
     
-    init() {
+    public init() {
     }
     
     /// Undoを登録する
