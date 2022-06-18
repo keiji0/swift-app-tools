@@ -21,6 +21,10 @@ public struct Ngram {
         }
     }
     
+    public func token(_ text: String) -> [String] {
+        tokens(word: text)
+    }
+    
     // MARK: - Private
     
     private let num: Int
