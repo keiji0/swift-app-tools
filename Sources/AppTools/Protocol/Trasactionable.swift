@@ -10,27 +10,8 @@ import Foundation
 
 /// トランザクションを提供することができるプロトコル
 public protocol Trasactionable : AnyObject {
-    /// トランザクションの開始
-    func begin() 
-    /// トランザクションの終了
-    func end() throws
-}
-
-extension Trasactionable {
-    /// トランザクションブロック
-    public func begin(_ block: () -> Void) throws {
-        begin()
-        block()
-        try end()
-    }
-
-    /// トランザクションブロック値を返す
-    public func begin<T>(_ block: () -> T) throws -> T {
-        begin()
-        let res = block()
-        try end()
-        return res
-    }
+    /// トランザクションを開始。例外が発生するとロールバックされる
+    func begin(_ block: () throws -> Void) throws
 }
 
 public protocol TransactionParent: Trasactionable {
@@ -38,10 +19,9 @@ public protocol TransactionParent: Trasactionable {
 }
 
 extension TransactionParent {
-    public func begin() {
-        transaction.begin()
-    }
-    public func end() throws {
-        try  transaction.end()
+    public func begin(_ block: () throws -> Void) throws {
+        try transaction.begin {
+            try block()
+        }
     }
 }
