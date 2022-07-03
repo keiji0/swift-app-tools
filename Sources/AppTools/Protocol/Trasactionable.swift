@@ -14,14 +14,13 @@ public protocol Trasactionable : AnyObject {
     func begin(_ block: () throws -> Void) throws
 }
 
-public protocol TransactionParent: Trasactionable {
-    var transaction: Trasactionable { get }
-}
-
-extension TransactionParent {
-    public func begin(_ block: () throws -> Void) throws {
-        try transaction.begin {
-            try block()
+extension Trasactionable {
+    /// トランザクション開始(返り値あり)
+    func begin<T>(_ block: () throws -> T) throws -> T {
+        var res: T?
+        try begin {
+            res = try block()
         }
+        return res!
     }
 }
