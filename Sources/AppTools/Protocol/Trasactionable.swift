@@ -16,7 +16,7 @@ public protocol Trasactionable : AnyObject {
 
 extension Trasactionable {
     /// トランザクション開始(返り値あり)
-    func begin<T>(_ block: () throws -> T) throws -> T {
+    public func begin<T>(_ block: () throws -> T) throws -> T {
         var res: T?
         try begin {
             res = try block()
