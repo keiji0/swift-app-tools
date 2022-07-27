@@ -20,6 +20,12 @@ public final class History<Item> {
     /// 進むアイテム一覧
     private (set) public var forwardQueue = [Item]()
     
+    /// 生成
+    /// - Parameter current: 最初にアイテムがあれば設定
+    public init(current: Item? = nil) {
+        self.current = current
+    }
+    
     /// 履歴に追加
     /// - Parameter item: 履歴に追加するアイテム
     /// 進むキューはクリアされます
