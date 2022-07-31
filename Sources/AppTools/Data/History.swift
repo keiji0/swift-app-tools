@@ -14,7 +14,7 @@ import Combine
 public final class History<Item> {
     /// 現在のアイテム
     /// アプリケーションはこの値を監視することでUIへ反映します
-    @Published private (set) public var current: Item? = nil
+    @Published private (set) public var current: Item
     /// 戻るアイテム一覧
     private (set) public var backQueue = [Item]()
     /// 進むアイテム一覧
@@ -22,18 +22,21 @@ public final class History<Item> {
     
     /// 生成
     /// - Parameter current: 最初にアイテムがあれば設定
-    public init(current: Item? = nil) {
-        self.current = current
+    public init(_ top: Item) {
+        self.current = top
+    }
+    
+    /// 履歴がなくデフォルトが先頭にいるか
+    public var isTop: Bool {
+        backQueue.isEmpty
     }
     
     /// 履歴に追加
     /// - Parameter item: 履歴に追加するアイテム
     /// 進むキューはクリアされます
     public func append(_ item: Item) {
-        // 最新があれば戻る履歴に保存
-        if let current {
-            backQueue.append(current)
-        }
+        // 戻る履歴に保存
+        backQueue.append(current)
         // 進む履歴はクリアしておく
         forwardQueue.removeAll()
         
@@ -51,13 +54,13 @@ public final class History<Item> {
     public func forward() {
         assert(canForward)
         let top = forwardQueue.popLast()!
-        backQueue.append(current!)
+        backQueue.append(current)
         current = top
     }
     
     /// 戻ることができるか？
     public var canBack: Bool {
-        backQueue.isAny || current != nil
+        backQueue.isAny
     }
     
     /// 戻す
@@ -65,13 +68,8 @@ public final class History<Item> {
     /// 成功時にフォワードキューに現在のItemを追加します
     public func back()  {
         assert(canBack)
-        // バックキューが空なら、currentにnilを設定
-        guard backQueue.isAny else {
-            current = nil
-            return
-        }
         let last = backQueue.popLast()!
-        forwardQueue.append(current!)
+        forwardQueue.append(current)
         current = last
     }
 }
@@ -86,9 +84,8 @@ extension History: Codable where Item: Codable {
     }
     
     public convenience init(from decoder: Decoder) throws {
-        self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.current = try values.decodeIfPresent(Item.self, forKey: .current)
+        self.init(try values.decode(Item.self, forKey: .current))
         self.backQueue = try values.decode([Item].self, forKey: .backQueue)
         self.forwardQueue = try values.decode([Item].self, forKey: .forwardQueue)
     }

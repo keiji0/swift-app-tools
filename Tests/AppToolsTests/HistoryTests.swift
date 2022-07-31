@@ -12,14 +12,17 @@ import Combine
 
 fileprivate struct Item: Equatable, Codable {
     let name: String
+    init(_ name: String) {
+        self.name = name
+    }
 }
 
 final class HistoryTests: XCTestCase {
 
-    private var history = History<Item>()
+    private var history = History<Item>(.init("top"))
     
     func test_デフォルトは何も設定されていない() {
-        XCTAssertEqual(history.current, nil)
+        XCTAssertEqual(history.current, .init("top"))
     }
     
     func test_デフォルトはバックできない() {
@@ -33,46 +36,46 @@ final class HistoryTests: XCTestCase {
     func test_履歴を追加() {
         XCTAssertEqual(
             history.$current.receiveEvents {
-                history.append(.init(name: "foo1"))
+                history.append(.init("foo1"))
             },
-            [nil, .init(name: "foo1")]
+            [.init("top"), .init("foo1")]
         )
         XCTAssertEqual(
             history.$current.receiveEvents {
-                history.append(.init(name: "foo2"))
+                history.append(.init("foo2"))
             },
-            [.init(name: "foo1"), .init(name: "foo2")]
+            [.init("foo1"), .init("foo2")]
         )
     }
     
     func test_バックできる() {
-        history.append(.init(name: "foo1"))
+        history.append(.init("foo1"))
         XCTAssertTrue(history.canBack)
-        history.append(.init(name: "foo2"))
+        history.append(.init("foo2"))
         XCTAssertEqual(
             history.$current.receiveLastEvent { history.back() },
-            .init(name: "foo1")
+            .init("foo1")
         )
     }
     
     func test_次に進むことができる() {
-        history.append(.init(name: "1"))
-        history.append(.init(name: "2"))
+        history.append(.init("1"))
+        history.append(.init("2"))
         history.back()
         XCTAssertTrue(history.canForward)
         XCTAssertEqual(
             history.$current.receiveLastEvent { history.forward() },
-            .init(name: "2")
+            .init("2")
         )
     }
     
     func test_Encodeできる() {
         XCTAssertEqual(encodedHistory(), history)
         
-        history.append(.init(name: "foo"))
+        history.append(.init("foo"))
         XCTAssertEqual(encodedHistory(), history)
         
-        history.append(.init(name: "foo2"))
+        history.append(.init("foo2"))
         history.back()
         XCTAssertEqual(encodedHistory(), history)
         
