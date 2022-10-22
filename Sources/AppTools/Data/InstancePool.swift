@@ -47,6 +47,11 @@ public final class InstancePool<Id: Hashable, Instance: AnyObject> {
         .init(self, id)
     }
     
+    /// インスタンスを直接参照
+    public subscript(index: Id) -> Instance? {
+        pool[index]?.instance
+    }
+    
     /// プールしているインスタンスを解放する
     public func clear() {
         pool.removeAll()

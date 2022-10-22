@@ -38,12 +38,24 @@ final class InstancePoolTests: XCTestCase {
         XCTAssertTrue(status == "finished")
     }
     
+    func test_インスタンスの直接参照できる() {
+        let handle = pool.ref("foo")
+        XCTAssertEqual(pool["foo"], handle.instance)
+    }
+    
+    func test_インスタンスが存在しないときはnilが返る() {
+        XCTAssertNil(pool["foo"])
+    }
+    
     // MARK: - Private
     
-    private final class AnyInstance {
+    private final class AnyInstance : Equatable {
         let id: String
         init(_ id: String) {
             self.id = id
+        }
+        static func == (lhs: InstancePoolTests.AnyInstance, rhs: InstancePoolTests.AnyInstance) -> Bool {
+            lhs.id == rhs.id
         }
     }
     
