@@ -32,5 +32,16 @@ final class WeakObjectTests: XCTestCase {
         val2 = nil
         XCTAssertEqual(collection.filter{ $0.hasValue }.count, 0)
     }
+    
+    func test_ディクショナリでも解放される() {
+        var collection: [String: WeakObject<Foo>] = .init()
+        var val1: Foo! = .init()
+        let val2: Foo! = .init()
+        collection["val1"] = .init(val1)
+        collection["val2"] = .init(val2)
+        val1 = nil
+        XCTAssertNil(collection["val1"]!.value)
+        XCTAssertNotNil(collection["val2"]!.value)
+    }
 }
 
