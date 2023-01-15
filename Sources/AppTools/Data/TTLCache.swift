@@ -52,6 +52,13 @@ public class TTLCache<Key, Object> where Key : Hashable,  Object : AnyObject {
         ttlStorage[key] = .init(object)
     }
     
+    /// キャッシュをクリアする
+    public func clear() {
+        ttlStorage.removeAll()
+        weakStorage.removeAll()
+        purgedAt = .init()
+    }
+    
     // MARK: - Private
     
     func purge() {
