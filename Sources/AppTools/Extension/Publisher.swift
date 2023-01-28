@@ -13,7 +13,7 @@ extension Publisher {
     /// - Parameter block: イベントを発生させるために手続き
     /// - Returns: 発生したイベント一覧
     /// テストなどに使う想定
-    func receiveEvents(_ block: () -> Void) -> [Output] where Failure == Never {
+    public func receiveEvents(_ block: () -> Void) -> [Output] where Failure == Never {
         var events = [Output]()
         let canceler = sink {
             events.append($0)
@@ -27,7 +27,7 @@ extension Publisher {
     /// - Parameter block: イベントを発生させるために手続き
     /// - Returns: 発生したイベント一覧
     /// テストなどに使う想定
-    func receiveLastEvent(_ block: () -> Void) -> Output where Failure == Never {
+    public func receiveLastEvent(_ block: () -> Void) -> Output where Failure == Never {
         receiveEvents(block).last!
     }
 }
