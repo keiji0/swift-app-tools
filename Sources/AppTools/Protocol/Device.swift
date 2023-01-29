@@ -13,7 +13,7 @@ import Foundation
 /// デバイスID、macOSとiOS/iPadOSで透過的にdeviceIDを識別するためのID
 /// UIDevice.current.identifierForVendorはiOSのみでmacOSでは使用できず
 /// 端末のSerial Noはアプリケーション側では取得できないので自前のアプリ初起動時にUUIDを生成してそれをDeviceIDとして使用する
-public protocol Device : AnyObject {
+public protocol Device : AnyObject, Identifiable {
     /// デバイス間を識別するID
     var id: UUID { get }
 }
