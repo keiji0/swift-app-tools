@@ -9,7 +9,7 @@
 import Foundation
 
 /// メモリ上のKeyValueStore
-final class KeyValueStoreInMemory : KeyValueStorable {
+public final class KeyValueStoreInMemory : KeyValueStorable {
     private var store = [String: Any]()
     
     public init() { }
