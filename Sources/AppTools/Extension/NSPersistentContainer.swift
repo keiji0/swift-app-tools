@@ -12,14 +12,17 @@ import CoreData
 extension NSPersistentContainer {
     
     /// バンドルを指定して生成
-    public convenience init(name: String, bundle: Bundle = Bundle.main) {
-        self.init(name: name, managedObjectModelName: name, bundle: bundle)
+    public convenience init(name: String, bundle: Bundle = Bundle.main, inMemory: Bool = false) {
+        self.init(name: name, managedObjectModelName: name, bundle: bundle, inMemory: inMemory)
     }
     
     /// データ名とマッピンングモデルが違う場合の指定
-    public convenience init(name: String, managedObjectModelName: String, bundle: Bundle = Bundle.main) {
+    public convenience init(name: String, managedObjectModelName: String, bundle: Bundle = Bundle.main, inMemory: Bool = false) {
         let model = ManagedObjectModelContainer.shared.model(managedObjectModelName, bundle)
         self.init(name: name, managedObjectModel: model)
+        if inMemory {
+            persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
+        }
     }
     
     /// データをリセットする
