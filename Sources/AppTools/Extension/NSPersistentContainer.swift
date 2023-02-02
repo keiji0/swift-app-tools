@@ -25,6 +25,14 @@ extension NSPersistentContainer {
         }
     }
     
+    /// メモリ上で動く指定
+    public convenience init(name: String, managedObjectModel model: NSManagedObjectModel, inMemory: Bool = false) {
+        self.init(name: name, managedObjectModel: model)
+        if inMemory {
+            persistentStoreDescriptions[0].url = URL(fileURLWithPath: "/dev/null")
+        }
+    }
+    
     /// データをリセットする
     public func dataReset() throws {
         let coordinator = self.persistentStoreCoordinator
