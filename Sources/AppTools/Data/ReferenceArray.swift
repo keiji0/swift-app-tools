@@ -11,8 +11,12 @@ import Foundation
 public final class ReferenceArray<Element>: RangeReplaceableCollection {
     public typealias Index = Int
     private var collection = [Element]()
-
+    
     public init() {
+    }
+
+    public init(_ elements: Element ...) {
+        collection = .init(elements)
     }
 
     public init<T: Collection>(_ collection: T)
