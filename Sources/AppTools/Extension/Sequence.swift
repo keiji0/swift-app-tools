@@ -22,6 +22,6 @@ extension Sequence where Element : Equatable {
                 return false
             }
         }
-        return true
+        return b.next() == nil ? true : false
     }
 }
