@@ -14,7 +14,7 @@ extension Sequence {
     
     /// シーケンス同士を繋いだシーケンスを取得
     /// 要素は同じだが別の型のシーケンスを繋げれることができる
-    public func spliced<S: Sequence>(_ seq: S) -> some Sequence<Element> where S.Element == Element {
+    public func spliced(_ seq: some Sequence<Element>) -> some Sequence<Element> {
         SplicedSequence(self, seq)
     }
 }
