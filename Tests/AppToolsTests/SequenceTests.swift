@@ -21,4 +21,11 @@ final class SequenceTests: XCTestCase {
         XCTAssertTrue([1, 2, 3].isEqual([1, 2, 3, 99].dropLast()))
         XCTAssertFalse([1, 2, 3].isEqual([1, 2, 3, 99]))
     }
+    
+    func test_シーケンス同士を繋ぐことができる() {
+        let s1 = [ 1, 2, 3 ]
+        let s2 = [ 3, 4 ].dropFirst()
+        let s3 = s1.spliced(s2)
+        XCTAssertEqual(Array(s3), [ 1, 2, 3, 4 ])
+    }
 }
