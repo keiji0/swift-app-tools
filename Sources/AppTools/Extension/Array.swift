@@ -14,6 +14,6 @@ extension Array {
         guard let index = firstIndex(of: element) else {
             return
         }
-        removeFirst(index)
+        remove(at: index)
     }
 }
