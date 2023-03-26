@@ -9,6 +9,19 @@
 extension Sequence {
     /// 隣接する要素をペアにしたシーケンス
     public var pairwise: some Sequence<(Element, Element)> {
-        AnySequence(zip(self, dropFirst()))
+        zip(self, dropFirst())
+    }
+}
+
+extension Sequence where Element : Equatable {
+    public func isEqual(_ other: some Sequence<Element>) -> Bool {
+        var a = self.makeIterator()
+        var b = other.makeIterator()
+        while let elem = a.next() {
+            guard elem == b.next() else {
+                return false
+            }
+        }
+        return true
     }
 }
