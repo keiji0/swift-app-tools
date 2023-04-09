@@ -17,19 +17,6 @@ extension Collection {
         !isEmpty
     }
 
-    public func contains<Elements: Collection>(_ elements: Elements) -> Bool
-    where
-        Elements.Element == Element,
-        Element: Equatable
-    {
-        for element in elements {
-            guard contains(element) else {
-                return false
-            }
-        }
-        return true
-    }
-    
     public func unorderEqual<T: Collection>(_ items: T) -> Bool where Self.Element == T.Element, Element: Equatable {
         guard items.count == self.count else {
             return false

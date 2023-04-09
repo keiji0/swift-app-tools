@@ -9,6 +9,8 @@
 import XCTest
 @testable import AppTools
 
+extension String: GraphNodeId {}
+
 final class BidirectionalGraphTests: XCTestCase {
     
     final class Node: BidirectionalGraphNode, CustomStringConvertible, Hashable {

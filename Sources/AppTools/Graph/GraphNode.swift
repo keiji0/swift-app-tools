@@ -8,5 +8,5 @@
 
 import Foundation
 
-public protocol GraphNode: Identifiable {
+public protocol GraphNode: Identifiable where ID: GraphNodeId {
 }
