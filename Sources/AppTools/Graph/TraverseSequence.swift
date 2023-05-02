@@ -10,22 +10,22 @@
 /// 指定された `KeyPath` でアクセスされるターゲットノードを深さ優先探索で巡回するための構造体です。
 /// 初めに自分自身がふくまれます。
 public struct TraverseSequence
-<Node: Identifiable, Targets: Sequence<Node>, TargetKeyPath: KeyPath<Node, Targets>>
+<Node: Identifiable, Targets: Sequence<Node>>
 : Sequence, IteratorProtocol
 {
     private var visited = Set<Node.ID>()
     private var stack: [Node]
-    private let keyPath: TargetKeyPath
+    private let nextTargets: (Node) -> Targets
 
-    public init(_ base: Node, _ keyPath: TargetKeyPath) {
-        self.keyPath = keyPath
+    public init(_ base: Node, _ nextTargets: @escaping (Node) -> Targets) {
         self.stack = [base]
+        self.nextTargets = nextTargets
     }
 
     public mutating func next() -> Node? {
         while let next = stack.popLast() {
             if visited.insert(next.id).inserted {
-                stack.append(contentsOf: next[keyPath: keyPath].reversed())
+                stack.append(contentsOf: nextTargets(next).reversed())
                 return next
             }
         }
@@ -37,27 +37,27 @@ public struct TraverseSequence
 /// 指定された `KeyPath` でアクセスされるターゲットノードを深さ優先探索で巡回するための構造体です。
 /// 初めに自分自身がふくまれます。また巡回にパスが入ります。
 public struct TraverseSequenceWithPath
-<Node: Identifiable, Targets: Sequence<Node>, TargetKeyPath: KeyPath<Node, Targets>>
+<Node: Identifiable, Targets: Sequence<Node>>
 : Sequence, IteratorProtocol
 {
     private var visited = Set<Node.ID>()
     private var stack: [Target]
-    private let keyPath: TargetKeyPath
+    private let nextTargets: (Node) -> Targets
 
     private struct Target {
         let node: Node
         let path: [Node.ID]
     }
 
-    public init(_ base: Node, _ keyPath: TargetKeyPath) {
-        self.keyPath = keyPath
+    public init(_ base: Node, _ nextTargets: @escaping (Node) -> Targets) {
+        self.nextTargets = nextTargets
         self.stack = [ .init(node: base, path: []) ]
     }
 
     public mutating func next() -> ([Node.ID], Node)? {
         while let next = stack.popLast() {
             if visited.insert(next.node.id).inserted {
-                stack.append(contentsOf: next.node[keyPath: keyPath].reversed().map {
+                stack.append(contentsOf: nextTargets(next.node).reversed().map {
                     .init(
                         node: $0,
                         path: next.path + next.node.id
