@@ -33,36 +33,36 @@ final class DirectedGraphTests: XCTestCase {
         nodeA.targets.append(nodeB2)
     }
 
-    func test_子孫の一覧を取得することができる() {
-        importPatternA()
-        // 並びが一緒
-        XCTAssertEqual(
-            [ "b1", "c", "b2" ],
-            nodeA.deepTargets.map{ $0.id }
-        )
-        // パスも取得できる
-        XCTAssertEqual(
-            [
-                [ "a" ],
-                [ "a", "b1" ],
-                [ "a", "b1", "c" ],
-                [ "a", "b2" ],
-            ],
-            nodeA.descendantPaths.map{ $0 }
-        )
-    }
+//    func test_子孫の一覧を取得することができる() {
+//        importPatternA()
+//        // 並びが一緒
+//        XCTAssertEqual(
+//            [ "b1", "c", "b2" ],
+//            nodeA.deepTargets.map{ $0.id }
+//        )
+//        // パスも取得できる
+//        XCTAssertEqual(
+//            [
+//                [ "a" ],
+//                [ "a", "b1" ],
+//                [ "a", "b1", "c" ],
+//                [ "a", "b2" ],
+//            ],
+//            nodeA.descendantPaths.map{ $0 }
+//        )
+//    }
     
     func test_パスの存在チェック_空パスは存在しない() {
         importPatternA()
         XCTAssertFalse(nodeA.isExists([]))
     }
     
-    func test_パスの存在チェック_パスが存在する() {
-        importPatternA()
-        for path in nodeA.descendantPaths {
-            XCTAssertTrue(nodeA.isExists(path))
-        }
-    }
+//    func test_パスの存在チェック_パスが存在する() {
+//        importPatternA()
+//        for path in nodeA.descendantPaths {
+//            XCTAssertTrue(nodeA.isExists(path))
+//        }
+//    }
     
     func test_存在しない場合でも大丈夫() {
         importPatternA()

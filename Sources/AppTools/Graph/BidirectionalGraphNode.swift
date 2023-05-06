@@ -17,11 +17,6 @@ public protocol BidirectionalGraphNode: DirectedGraphNode {
 }
 
 extension BidirectionalGraphNode {
-    /// 再帰的にSourcesを辿ったノードの一覧
-    public var deepSources: some Sequence<Self> {
-        TraverseSequence(self, \Self.sources)
-    }
-    
     /// ソースをルートまで辿っていき、このノードへの全てのパスを取得
     public var ancestorPaths: [[ID]] {
         func traverse(_ node: Self, _ visited: [Pair<ID, ID>]) -> [[ID]] {

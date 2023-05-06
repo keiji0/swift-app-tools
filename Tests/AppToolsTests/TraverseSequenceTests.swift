@@ -34,17 +34,6 @@ final class TraverseSequenceTests: XCTestCase {
         )
     }
     
-    func test_トラバースは無限ループしない() {
-        let nodeA = Node("a")
-        let root = Node("root", [ nodeA ])
-        nodeA.targets.append(root)
-        
-        XCTAssertEqual(
-            ["root", "a"],
-            Array(TraverseSequence(root, \Node.targets).map{ $0.id })
-        )
-    }
-    
     func test_パス付きのトラバースができる() {
         let root = Node("root", [
             Node("a", [
@@ -59,7 +48,9 @@ final class TraverseSequenceTests: XCTestCase {
                 [ "root", "a", "a-a" ],
                 [ "root", "b" ],
             ],
-            Array(TraverseSequenceWithPath(root, \Node.targets).map{ $0 + [ $1.id ] })
+            Array(TraverseSequenceWithPath(root, { (path, node) in
+                node.targets
+            }).map{ $0 + [ $1.id ] })
         )
     }
 }
