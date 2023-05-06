@@ -29,7 +29,7 @@ final class TraverseSequenceTests: XCTestCase {
             Node("b")
         ])
         XCTAssertEqual(
-            ["root", "a", "a-a", "b"],
+            ["a", "a-a", "b"],
             Array(TraverseSequence(root, \Node.targets).map{ $0.id })
         )
     }
@@ -43,7 +43,6 @@ final class TraverseSequenceTests: XCTestCase {
         ])
         XCTAssertEqual(
             [
-                [ "root" ],
                 [ "root", "a" ],
                 [ "root", "a", "a-a" ],
                 [ "root", "b" ],

@@ -52,6 +52,21 @@ final class BidirectionalGraphTests: XCTestCase {
         nodeA.append(nodeB2)
     }
     
+    func test_参照元を全て取得できる() {
+         importPatternA()
+         XCTAssertTrue(Set([nodeA, nodeB1]).isSubset(of: .init(nodeC.deepSources)) )
+         XCTAssertTrue(Set([nodeA]).isSubset(of: .init(nodeB2.deepSources)) )
+     }
+
+     func test_参照元を全て取得できる_循環していても大丈夫() {
+         root.append(nodeA)
+         nodeA.append(nodeB)
+         nodeB.append(nodeA)
+         XCTAssertTrue(
+             Set([root, nodeA, nodeB]).isSubset(of: .init(nodeA.deepSources))
+         )
+     }
+    
     func test_pathsオリジンから参照されているパスを取得できる() {
         root.append(nodeA)
         nodeA.append(nodeB)
