@@ -43,6 +43,23 @@ final class DirectedGraphTests: XCTestCase {
         )
     }
     
+    func test_子孫のパス一覧を取得することができる_循環したノードは除外される() {
+        let root = Node("root")
+        root.targets.append(nodeA)
+        nodeA.targets.append(nodeB)
+        root.targets.append(nodeC)
+        nodeC.targets.append(nodeA)
+        
+        XCTAssertEqual(
+            [
+                [ root.id, nodeA.id ],
+                [ root.id, nodeA.id, nodeB.id ],
+                [ root.id, nodeC.id ],
+            ],
+            root.descendantPaths.map{ $0 }
+        )
+    }
+    
     func test_パスの存在チェック_空パスは存在しない() {
         importPatternA()
         XCTAssertFalse(nodeA.isExists([]))

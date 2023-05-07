@@ -25,6 +25,21 @@ extension DirectedGraphNode {
         TraverseSequence(self, \Self.targets)
     }
     
+    /// 子孫パス一覧を取得
+    /// 一度出現した同一ノードは探索から除外されます。
+    public var descendantPaths: some Sequence<[ID]> {
+        TraverseSequenceWithPath(self, \Self.targets, isStop: Self.makeIsStop()).lazy.map{
+            $0.0 + $0.1.id
+        }
+    }
+    
+    private static func makeIsStop() -> ([ID], Self) -> Bool {
+        var visited = Set<ID>()
+        return { _, node in
+            !visited.insert(node.id).inserted
+        }
+    }
+    
     /// 指定パスからノードを取得
     public func target(_ path: some Sequence<ID>) -> Self? {
         var itr = path.makeIterator()

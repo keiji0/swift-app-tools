@@ -61,7 +61,7 @@ public struct TraverseSequenceWithPath
         append(.init(node: base, path: [ ]))
     }
     
-    public init(_ base: Node, _ nextTargets: @escaping (Node) -> Targets) {
+    public init(_ base: Node, _ nextTargets: @escaping NextTargets) {
         self.init(base, nextTargets) { _, _ in false }
     }
 
