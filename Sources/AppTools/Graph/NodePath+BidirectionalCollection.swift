@@ -36,4 +36,13 @@ extension BidirectionalCollection where Element: GraphNodeId {
             prefix(through: $0)
         }
     }
+    
+    /// 親子ペアを取得
+    public var parentChild: Pair<Element, Element>? {
+        guard let parent = parentNodeId,
+              let child = last else {
+            return nil
+        }
+        return .init(parent, child)
+    }
 }

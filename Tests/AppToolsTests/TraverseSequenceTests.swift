@@ -21,6 +21,26 @@ final class TraverseSequenceTests: XCTestCase {
         }
     }
     
+    func test_開始地点は含まない() {
+        let root = Node("root", [
+            Node("a")
+        ])
+        XCTAssertEqual(
+            ["a"],
+            Array(TraverseSequence(root, \Node.targets).map{ $0.id })
+        )
+    }
+    
+    func test_開始地点は含まないWithPath() {
+        let root = Node("root", [
+            Node("a")
+        ])
+        XCTAssertEqual(
+            ["a"],
+            Array(TraverseSequenceWithPath(root, \Node.targets).map{ $0.1.id })
+        )
+    }
+    
     func test_ノードをトラバースできる() {
         let root = Node("root", [
             Node("a", [
@@ -41,16 +61,14 @@ final class TraverseSequenceTests: XCTestCase {
             ]),
             Node("b")
         ])
+        
         XCTAssertEqual(
             [
                 [ "root", "a" ],
                 [ "root", "a", "a-a" ],
                 [ "root", "b" ],
             ],
-            Array(TraverseSequenceWithPath(root, { (path, node) in
-                node.targets
-            }).map{ $0 + [ $1.id ] })
+            Array(TraverseSequenceWithPath(root, \Node.targets).map{ $0.0 + [ $0.1.id ] })
         )
     }
 }
-    

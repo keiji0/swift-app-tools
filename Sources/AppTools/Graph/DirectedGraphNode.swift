@@ -18,12 +18,12 @@ public protocol DirectedGraphNode : GraphNode {
 }
 
 extension DirectedGraphNode {
+    
     /// 子孫一覧を再帰的に取得するシーケンス
-     /// * 深さ優先で探索されます
-     /// * 頂点が循環していた場合はスキップされます
-     public var deepTargets: some Sequence<Self> {
-         TraverseSequence(self, \Self.targets)
-     }
+    /// 深さ優先で探索されます
+    public var deepTargets: some Sequence<Self> {
+        TraverseSequence(self, \Self.targets)
+    }
     
     /// 指定パスからノードを取得
     public func target(_ path: some Sequence<ID>) -> Self? {

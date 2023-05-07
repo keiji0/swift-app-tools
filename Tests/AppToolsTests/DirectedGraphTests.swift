@@ -23,6 +23,7 @@ final class DirectedGraphTests: XCTestCase {
     }
     
     let nodeA = Node("a")
+    let nodeB = Node("b")
     let nodeB1 = Node("b1")
     let nodeB2 = Node("b2")
     let nodeC = Node("c")
