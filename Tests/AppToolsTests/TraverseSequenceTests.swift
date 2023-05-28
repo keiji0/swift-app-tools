@@ -37,7 +37,7 @@ final class TraverseSequenceTests: XCTestCase {
         ])
         XCTAssertEqual(
             ["a"],
-            Array(TraverseSequenceWithPath(root, \Node.targets).map{ $0.1.id })
+            Array(TraverseSequenceWithPath(root, { node, _ in node.targets }).map{ $0.1.id })
         )
     }
     

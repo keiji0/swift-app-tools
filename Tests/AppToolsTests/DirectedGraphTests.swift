@@ -50,6 +50,7 @@ final class DirectedGraphTests: XCTestCase {
         //   B
         // C
         //   A
+        // E
         root.targets.append(nodeA)
         nodeA.targets.append(nodeB)
         root.targets.append(nodeC)
@@ -61,7 +62,6 @@ final class DirectedGraphTests: XCTestCase {
                 [ root.id, nodeA.id ],
                 [ root.id, nodeA.id, nodeB.id ],
                 [ root.id, nodeC.id ],
-                [ root.id, nodeC.id, nodeA.id ],
                 [ root.id, nodeE.id ],
             ],
             root.descendantPaths.map{ $0 }
