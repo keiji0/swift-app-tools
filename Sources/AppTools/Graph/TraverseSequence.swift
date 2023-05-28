@@ -70,7 +70,7 @@ public struct TraverseSequenceWithPath
             return nil
         }
         if isStop(next.path, next.node) {
-            return nil
+            return (next.path, next.node)
         }
         
         append(next)

@@ -18,7 +18,6 @@ public protocol DirectedGraphNode : GraphNode {
 }
 
 extension DirectedGraphNode {
-    
     /// 子孫一覧を再帰的に取得するシーケンス
     /// 深さ優先で探索されます
     public var deepTargets: some Sequence<Self> {

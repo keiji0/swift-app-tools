@@ -27,6 +27,7 @@ final class DirectedGraphTests: XCTestCase {
     let nodeB1 = Node("b1")
     let nodeB2 = Node("b2")
     let nodeC = Node("c")
+    let nodeE = Node("e")
     
     private func importPatternA() {
         nodeA.targets.append(nodeB1)
@@ -45,16 +46,23 @@ final class DirectedGraphTests: XCTestCase {
     
     func test_子孫のパス一覧を取得することができる_循環したノードは除外される() {
         let root = Node("root")
+        // A
+        //   B
+        // C
+        //   A
         root.targets.append(nodeA)
         nodeA.targets.append(nodeB)
         root.targets.append(nodeC)
         nodeC.targets.append(nodeA)
+        root.targets.append(nodeE)
         
         XCTAssertEqual(
             [
                 [ root.id, nodeA.id ],
                 [ root.id, nodeA.id, nodeB.id ],
                 [ root.id, nodeC.id ],
+                [ root.id, nodeC.id, nodeA.id ],
+                [ root.id, nodeE.id ],
             ],
             root.descendantPaths.map{ $0 }
         )
