@@ -8,16 +8,14 @@
 
 extension Collection where Element: Collection, Element.Element : GraphNodeId {
     
-    public typealias NodeId = Element.Element
-    
     /// 内包したパスを除外した一覧を取得
     ///
     /// 例えば:
     /// 1. A->B
     /// 2. A->B->C
     /// があったと場合、2.は1.に内包されているので2.を除外したパス一覧を取得することができる。
-    public var nonIncludedPaths: [[NodeId]] {
-        var nodes = [Node<NodeId>]()
+    public var nonIncludedPaths: [[Element.Element]] {
+        var nodes = [Node<Element.Element>]()
         for path in self {
             guard let nodeId = path.first else {
                 continue;
