@@ -1,6 +1,6 @@
 //
-//  NodePath.swift
-//  
+//  Sequence+NodePath.swift
+//
 //  
 //  Created by keiji0 on 2023/04/08
 //  

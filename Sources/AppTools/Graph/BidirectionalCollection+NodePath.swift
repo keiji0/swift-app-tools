@@ -1,6 +1,6 @@
 //
-//  NodePath+BidirectionalCollection.swift
-//  
+//  BidirectionalCollection+NodePath.swift
+//
 //  
 //  Created by keiji0 on 2023/04/09
 //  

@@ -80,5 +80,32 @@ final class NodePathTests: XCTestCase {
         let b = [1, 1]
         XCTAssertTrue(b < a)
     }
+    
+    func test_内包したパスを除外できる() {
+        let path1 = [ 1, 2 ]
+        let path2 = [ 1, 2, 3 ]
+        let paths = [ path1, path2 ]
+        XCTAssertEqual(paths.nonIncludedPaths.count, 1)
+        XCTAssertEqual(paths.nonIncludedPaths.first, path1)
+    }
+    
+    func test_内包したパスの正規化ができる後から上書きする() {
+        let path1 = [ 1, 2 ]
+        let path2 = [ 1, 2, 3]
+        let path3 = [ 1 ]
+        let paths = [ path1, path2, path3 ]
+        XCTAssertEqual(paths.nonIncludedPaths.count, 1)
+        XCTAssertEqual(paths.nonIncludedPaths.first, path3)
+    }
+    
+    func test_兄弟同士なら共存() {
+        let path1 = [ 1, 2, 3]
+        let path2 = [ 1, 2, 4 ]
+        let paths = [ path1, path2 ]
+        
+        XCTAssertEqual(paths.nonIncludedPaths.count, 2)
+        XCTAssertTrue(paths.nonIncludedPaths.contains(path1))
+        XCTAssertTrue(paths.nonIncludedPaths.contains(path2))
+    }
 }
 
