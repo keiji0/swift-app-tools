@@ -11,6 +11,10 @@ import XCTest
 @testable import AppTools
 
 final class SequenceTests: XCTestCase {
+    func test_要素が一つのときの時はペアがないので空() {
+        XCTAssertEqual([1].pairwise.map{$1}.count, 0)
+    }
+    
     func test_要素同士のシーケンスを取得できる() {
         XCTAssertEqual([[1, 2], [2, 3]], [1, 2, 3].pairwise.map{
             [ $0.0, $0.1 ]
