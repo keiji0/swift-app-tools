@@ -23,6 +23,15 @@ extension BidirectionalCollection where Element: GraphNodeId {
         : nil
     }
     
+    /// 親と最後の要素を同時に取得
+    public var parentAndLast: (SubSequence, Element)? {
+        guard let parent = parent,
+              let last = last else {
+            return nil
+        }
+        return (parent, last)
+    }
+    
     /// パス一覧を取得
     public var sources: [SubSequence] {
         indices.map {
