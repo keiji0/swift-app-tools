@@ -60,4 +60,30 @@ extension DirectedGraphNode {
     public func isExists(_ path: some Sequence<ID>) -> Bool {
         target(path) != nil
     }
+    
+    /// ソースからみた直前のノード
+    public func previousSibling(_ source: Self) -> Self? {
+        guard let index = source.targets.firstIndex(where: { $0.id == id }) else {
+            return nil
+        }
+        
+        let prevIndex = source.targets.index(index, offsetBy: -1)
+        guard source.targets.startIndex <= prevIndex else {
+            return nil
+        }
+        return source.targets[prevIndex]
+    }
+    
+    /// ソースからみた次のノードパス
+    public func nextSibling(_ source: Self) -> Self? {
+        guard let index = source.targets.firstIndex(where: { $0.id == id }) else {
+            return nil
+        }
+        
+        let nextIndex = source.targets.index(index, offsetBy: 1)
+        guard nextIndex < source.targets.endIndex else {
+            return nil
+        }
+        return source.targets[nextIndex]
+    }
 }

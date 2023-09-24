@@ -22,6 +22,7 @@ final class DirectedGraphTests: XCTestCase {
         var description: String { id }
     }
     
+    let root = Node("root")
     let nodeA = Node("a")
     let nodeB = Node("b")
     let nodeB1 = Node("b1")
@@ -34,7 +35,7 @@ final class DirectedGraphTests: XCTestCase {
         nodeB1.targets.append(nodeC)
         nodeA.targets.append(nodeB2)
     }
-
+    
     func test_子孫の一覧を取得することができる() {
         importPatternA()
         // 並びが一緒
@@ -76,5 +77,24 @@ final class DirectedGraphTests: XCTestCase {
     func test_存在しない場合でも大丈夫() {
         importPatternA()
         XCTAssertTrue(!nodeA.isExists([nodeA.id, nodeC.id]))
+    }
+    
+    private func importPatternB() {
+        root.targets.append(nodeA)
+        root.targets.append(nodeB)
+    }
+    
+    func test_前の兄弟ノードを取得() {
+        importPatternB()
+        XCTAssertNil(nodeA.previousSibling(root))
+        XCTAssertEqual(nodeB.previousSibling(root)?.id, nodeA.id)
+        // お門違いからは取得できない
+        XCTAssertNil(nodeA.previousSibling(nodeC))
+    }
+    
+    func test_次の兄弟ノードを取得() {
+        importPatternB()
+        XCTAssertEqual(nodeA.nextSibling(root)?.id, nodeB.id)
+        XCTAssertNil(nodeB.nextSibling(root))
     }
 }
