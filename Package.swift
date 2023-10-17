@@ -28,6 +28,9 @@ let package = Package(
         .library(
             name: "AppToolsUserPreference",
             targets: ["AppToolsUserPreference"]),
+        .library(
+            name: "AppToolsUbiquitousCoreStorage",
+            targets: ["AppToolsUbiquitousCoreStorage"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -61,6 +64,13 @@ let package = Package(
         .testTarget(
             name: "UserPreferenceTests",
             dependencies: ["AppToolsUserPreference"]),
+        
+        .target(
+            name: "AppToolsUbiquitousCoreStorage",
+            dependencies: ["AppToolsData", "AppToolsCoreData"]),
+        .testTarget(
+            name: "UbiquitousCoreStorageTests",
+            dependencies: ["AppToolsUbiquitousCoreStorage"]),
         
         .target(
             name: "AppToolsCoreData",
