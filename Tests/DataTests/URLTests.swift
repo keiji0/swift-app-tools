@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import AppTools
+@testable import AppToolsData
 
 final class URLTests: XCTestCase {
     func test_URLのspecificPartが取得できる() {

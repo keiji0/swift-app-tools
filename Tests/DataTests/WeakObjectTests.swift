@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import AppTools
+@testable import AppToolsData
 
 final class WeakObjectTests: XCTestCase {
     class Foo { }

@@ -1,5 +1,5 @@
 //
-//  BidirectionalCollection+NodePath.swift
+//  NodePath.swift
 //
 //  
 //  Created by keiji0 on 2023/04/09
@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import AppToolsData
 
-extension BidirectionalCollection where Element: GraphNodeId {
+extension BidirectionalCollection where Element: NodeId {
     /// 親を取得
     /// 要素が1つかなければルートなので親は存在せずnilが返る
     public var parent: SubSequence? {

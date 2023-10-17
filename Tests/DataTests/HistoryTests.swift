@@ -8,7 +8,7 @@
 
 import XCTest
 import Combine
-@testable import AppTools
+@testable import AppToolsData
 
 fileprivate struct Item: Equatable, Codable {
     let name: String

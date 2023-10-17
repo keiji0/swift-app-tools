@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import AppTools
+import AppToolsText
 
 final class NgramTests: XCTestCase {
     func test_空文字() {

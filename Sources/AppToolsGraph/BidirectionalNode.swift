@@ -1,5 +1,5 @@
 //
-//  BidirectionalGraphNode.swift
+//  BidirectionalNode.swift
 //  
 //  
 //  Created by keiji0 on 2023/04/02
@@ -7,16 +7,17 @@
 //
 
 import Foundation
+import AppToolsData
 
 /// 双方向ノードを表すグラフノード
-public protocol BidirectionalGraphNode: DirectedGraphNode {
+public protocol BidirectionalNode: DirectedNode {
     associatedtype Sources: Collection<Self>
     /// 参照元のノード一覧
     /// 順序に意味はなく参照元を辿れるぐらいの意味合い
     var sources: Sources { get }
 }
 
-extension BidirectionalGraphNode {
+extension BidirectionalNode {
     /// 再帰的にSourcesを辿ったノードの一覧
      public var deepSources: some Sequence<Self> {
          TraverseSequence(self, \Self.sources)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Sequence where Element: GraphNodeId {
+extension Sequence where Element: NodeId {
     /// 指定パスは内包するパスかどうか？
     /// - Parameter path: 対象のパス
     /// - Returns: 内包していればtrue
@@ -27,7 +27,7 @@ extension Sequence where Element: GraphNodeId {
     /// 正しいパスかどうか検証
     /// - Parameter root: パスの起点となるノード
     /// - Returns: 正しいばあいはtrueを返す
-    public func isValid<Node: DirectedGraphNode>(_ root: Node) -> Bool where Node.ID == Element {
+    public func isValid<Node: DirectedNode>(_ root: Node) -> Bool where Node.ID == Element {
         root.isExists(self)
     }
 }
@@ -37,7 +37,7 @@ extension Sequence where Element: GraphNodeId {
 /// NodePathにおける比較とは
 /// * 要素が多いものが多い。つまり長いパスが大きい
 /// * 同一要素数の場合NodeIdで比較する
-public func < <Path: Sequence>(lhs: Path, rhs: Path) -> Bool where Path.Element: GraphNodeId, Path.Element: Comparable {
+public func < <Path: Sequence>(lhs: Path, rhs: Path) -> Bool where Path.Element: NodeId, Path.Element: Comparable {
     var itrA = lhs.makeIterator()
     var itrB = rhs.makeIterator()
     while let nodeA = itrA.next() {

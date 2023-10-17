@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import AppTools
+@testable import AppToolsData
 
 let ttl = 0.5
 

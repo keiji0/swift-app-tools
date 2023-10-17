@@ -7,11 +7,11 @@
 //
 
 import XCTest
-@testable import AppTools
+@testable import AppToolsGraph
 
 final class DirectedGraphTests: XCTestCase {
     
-    final class Node: DirectedGraphNode, CustomStringConvertible {
+    final class Node: DirectedNode, CustomStringConvertible {
         let id: String
         var targets = [Node]()
         

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import AppTools
+@testable import AppToolsData
 
 final class InstancePoolTests: XCTestCase {
     func test_インスタンスを共有できる() {

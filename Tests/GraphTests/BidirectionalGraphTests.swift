@@ -7,13 +7,13 @@
 //
 
 import XCTest
-@testable import AppTools
+@testable import AppToolsGraph
 
-extension String: GraphNodeId {}
+extension String: NodeId {}
 
 final class BidirectionalGraphTests: XCTestCase {
     
-    final class Node: BidirectionalGraphNode, CustomStringConvertible, Hashable {
+    final class Node: BidirectionalNode, CustomStringConvertible, Hashable {
         let id: String
         private(set) var targets = [Node]()
         private(set) var sources = [Node]()

@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import AppTools
+@testable import AppToolsGraph
 
 
 final class TraverseSequenceTests: XCTestCase {

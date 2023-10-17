@@ -6,8 +6,7 @@
 //  
 //
 
-extension Collection where Element: Collection, Element.Element : GraphNodeId {
-    
+extension Collection where Element: Collection, Element.Element : NodeId {
     /// 内包したパスを除外した一覧を取得
     ///
     /// 例えば:
@@ -15,7 +14,7 @@ extension Collection where Element: Collection, Element.Element : GraphNodeId {
     /// 2. A->B->C
     /// があったと場合、2.は1.に内包されているので2.を除外したパス一覧を取得することができる。
     public var nonIncludedPaths: [[Element.Element]] {
-        var nodes = [Node<Element.Element>]()
+        var nodes = [InnerNode<Element.Element>]()
         for path in self {
             guard let nodeId = path.first else {
                 continue;
@@ -24,7 +23,7 @@ extension Collection where Element: Collection, Element.Element : GraphNodeId {
             if let node = nodes.first(where: { $0.id == nodeId }) {
                 node.write(path.dropFirst())
             } else {
-                let node = Node(nodeId)
+                let node = InnerNode(nodeId)
                 nodes.append(node)
                 node.write(path.dropFirst())
             }
@@ -36,13 +35,13 @@ extension Collection where Element: Collection, Element.Element : GraphNodeId {
     }
 }
     
-private class Node<NodeId> where NodeId: GraphNodeId {
+private class InnerNode<NodeId> where NodeId: AppToolsGraph.NodeId {
     init(_ id: NodeId) {
         self.id = id
     }
     
     let id: NodeId
-    var children = [Node]()
+    var children = [InnerNode]()
     var isLeaf: Bool = false
     
     func write(_ path: some Collection<NodeId>) {
@@ -58,7 +57,7 @@ private class Node<NodeId> where NodeId: GraphNodeId {
         if let child = children.first(where: { $0.id == nid }) {
             child.write(path.dropFirst())
         } else {
-            let child = Node(nid)
+            let child = InnerNode(nid)
             children.append(child)
             child.write(path.dropFirst())
         }

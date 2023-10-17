@@ -1,5 +1,5 @@
 //
-//  DirectedGraphNode.swift
+//  DirectedNode.swift
 //  
 //  
 //  Created by keiji0 on 2023/04/02
@@ -7,17 +7,18 @@
 //
 
 import Foundation
+import AppToolsData
 
 /// グラフのノードを表すプロトコル
 /// 隣接リストで表されたグラフの頂点
-public protocol DirectedGraphNode : GraphNode {
+public protocol DirectedNode : Node {
     associatedtype Targets: Collection<Self>
     /// 関連するノードへのリスト
     /// edgesとかではなくtargetsにしているのは有向グラフであるから
     var targets: Targets { get }
 }
 
-extension DirectedGraphNode {
+extension DirectedNode {
     /// 子孫一覧を再帰的に取得するシーケンス
     /// 深さ優先で探索されます
     public var deepTargets: some Sequence<Self> {

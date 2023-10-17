@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import AppTools
+@testable import AppToolsData
 
 final class SequenceTests: XCTestCase {
     func test_要素が一つのときの時はペアがないので空() {

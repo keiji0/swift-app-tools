@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import AppTools
+@testable import AppToolsGraph
 
-extension Int: GraphNodeId{}
+extension Int: NodeId{}
 
 final class NodePathTests: XCTestCase {
     func test_同じパスは内包されている() {
