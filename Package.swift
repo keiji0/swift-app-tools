@@ -25,6 +25,9 @@ let package = Package(
         .library(
             name: "AppToolsCrossPlatform",
             targets: ["AppToolsCrossPlatform"]),
+        .library(
+            name: "AppToolsUserPreference",
+            targets: ["AppToolsUserPreference"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -51,6 +54,13 @@ let package = Package(
         .testTarget(
             name: "DataTests",
             dependencies: ["AppToolsData"]),
+        
+        .target(
+            name: "AppToolsUserPreference",
+            dependencies: ["AppToolsData"]),
+        .testTarget(
+            name: "UserPreferenceTests",
+            dependencies: ["AppToolsUserPreference"]),
         
         .target(
             name: "AppToolsCoreData",
