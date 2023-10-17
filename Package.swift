@@ -10,23 +10,83 @@ let package = Package(
         .iOS(.v14),
     ],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "AppTools",
-            targets: ["AppTools"]),
+            name: "AppToolsGraph",
+            targets: ["AppToolsGraph"]),
+        .library(
+            name: "AppToolsText",
+            targets: ["AppToolsText"]),
+        .library(
+            name: "AppToolsData",
+            targets: ["AppToolsData"]),
+        .library(
+            name: "AppToolsCoreData",
+            targets: ["AppToolsCoreData"]),
+        .library(
+            name: "AppToolsCrossPlatform",
+            targets: ["AppToolsCrossPlatform"]),
+        .library(
+            name: "AppToolsUserPreference",
+            targets: ["AppToolsUserPreference"]),
+        .library(
+            name: "AppToolsUbiquitousCoreStorage",
+            targets: ["AppToolsUbiquitousCoreStorage"]),
+        .library(
+            name: "AppToolsSQLite",
+            targets: ["AppToolsSQLite"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "AppTools",
+            name: "AppToolsGraph",
+            dependencies: ["AppToolsData"]),
+        .testTarget(
+            name: "GraphTests",
+            dependencies: ["AppToolsGraph"]),
+        
+        .target(
+            name: "AppToolsText",
             dependencies: []),
         .testTarget(
-            name: "AppToolsTests",
-            dependencies: ["AppTools"]),
+            name: "TextTests",
+            dependencies: ["AppToolsText"]),
+        
+        .target(
+            name: "AppToolsData",
+            dependencies: []),
+        .testTarget(
+            name: "DataTests",
+            dependencies: ["AppToolsData"]),
+        
+        .target(
+            name: "AppToolsUserPreference",
+            dependencies: ["AppToolsData"]),
+        .testTarget(
+            name: "UserPreferenceTests",
+            dependencies: ["AppToolsUserPreference"]),
+        
+        .target(
+            name: "AppToolsUbiquitousCoreStorage",
+            dependencies: ["AppToolsData", "AppToolsCoreData"]),
+        .testTarget(
+            name: "UbiquitousCoreStorageTests",
+            dependencies: ["AppToolsUbiquitousCoreStorage"]),
+        
+        .target(
+            name: "AppToolsSQLite",
+            dependencies: []),
+        .testTarget(
+            name: "SQLiteTests",
+            dependencies: ["AppToolsSQLite"]),
+        
+        .target(
+            name: "AppToolsCoreData",
+            dependencies: ["AppToolsData"]),
+        .target(
+            name: "AppToolsCrossPlatform",
+            dependencies: []),
     ]
 )
