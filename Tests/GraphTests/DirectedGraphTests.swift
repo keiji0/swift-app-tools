@@ -83,18 +83,4 @@ final class DirectedGraphTests: XCTestCase {
         root.targets.append(nodeA)
         root.targets.append(nodeB)
     }
-    
-    func test_前の兄弟ノードを取得() {
-        importPatternB()
-        XCTAssertNil(nodeA.previousSibling(root))
-        XCTAssertEqual(nodeB.previousSibling(root)?.id, nodeA.id)
-        // お門違いからは取得できない
-        XCTAssertNil(nodeA.previousSibling(nodeC))
-    }
-    
-    func test_次の兄弟ノードを取得() {
-        importPatternB()
-        XCTAssertEqual(nodeA.nextSibling(root)?.id, nodeB.id)
-        XCTAssertNil(nodeB.nextSibling(root))
-    }
 }

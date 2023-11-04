@@ -25,19 +25,6 @@ extension DirectedNode {
         TraverseSequence(self, \Self.targets)
     }
     
-    /// 子孫パス一覧を取得
-    /// 一度出現した同一ノードは探索から除外されます。
-    public var descendantPaths: some Sequence<[ID]> {
-        var visited = Set<ID>()
-        return TraverseSequenceWithPath(self) { node, _ in
-            return node.targets.filter { target in
-                visited.insert(target.id).inserted
-            }
-        }.lazy.map{
-            $0.0 + $0.1.id
-        }
-    }
-    
     /// 指定パスからノードを取得
     public func target(_ path: some Sequence<ID>) -> Self? {
         var itr = path.makeIterator()
@@ -57,34 +44,32 @@ extension DirectedNode {
         return current
     }
     
+    /// 子孫パス一覧を取得
+    /// 一度出現した同一ノードは探索から除外されます。
+    public var descendantPaths: some Sequence<[ID]> {
+        var visited = Set<ID>()
+        return TraverseSequenceWithPath(self) { node, _ in
+            return node.targets.filter { target in
+                visited.insert(target.id).inserted
+            }
+        }.lazy.map{
+            $0.0 + $0.1.id
+        }
+    }
+    
     /// 指定パスが存在するのかチェック
     public func isExists(_ path: some Sequence<ID>) -> Bool {
         target(path) != nil
     }
-    
-    /// ソースからみた直前のノード
-    public func previousSibling(_ source: Self) -> Self? {
-        guard let index = source.targets.firstIndex(where: { $0.id == id }) else {
-            return nil
+}
+
+extension DirectedNode where Targets: BidirectionalCollection {
+    /// 末尾のターゲットを再起的に辿った最後にあるターゲット
+    /// ターゲットがなければ自身のノードが返る
+    public var deepLastTarget: Self? {
+        guard let lastTarget = targets.last else {
+            return self
         }
-        
-        let prevIndex = source.targets.index(index, offsetBy: -1)
-        guard source.targets.startIndex <= prevIndex else {
-            return nil
-        }
-        return source.targets[prevIndex]
-    }
-    
-    /// ソースからみた次のノードパス
-    public func nextSibling(_ source: Self) -> Self? {
-        guard let index = source.targets.firstIndex(where: { $0.id == id }) else {
-            return nil
-        }
-        
-        let nextIndex = source.targets.index(index, offsetBy: 1)
-        guard nextIndex < source.targets.endIndex else {
-            return nil
-        }
-        return source.targets[nextIndex]
+        return lastTarget.deepLastTarget
     }
 }
