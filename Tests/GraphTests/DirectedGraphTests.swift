@@ -69,6 +69,11 @@ final class DirectedGraphTests: XCTestCase {
         )
     }
     
+    func test_パスからターゲットを取得_自身もターゲットとして含む() {
+        importPatternA()
+        XCTAssertTrue(root.isExists([root.id]))
+    }
+    
     func test_パスの存在チェック_空パスは存在しない() {
         importPatternA()
         XCTAssertFalse(nodeA.isExists([]))
