@@ -30,6 +30,16 @@ extension TreeNode {
         }
     }
     
+    /// 兄弟かどうか？
+    public func isSibling(_ node: Self) -> Bool {
+        guard // 自分自身は兄弟ではない
+              id != node.id,
+              let parent, let otherParent = node.parent else {
+            return false
+        }
+        return parent.id == otherParent.id
+    }
+    
     /// 次の兄弟ノードを取得。次というのはTargetsのコレクションでいうところのAfterにあたる
     public var nextSibling: Self? {
         guard let parent,

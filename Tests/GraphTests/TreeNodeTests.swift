@@ -94,4 +94,15 @@ final class TreeNdoeTests: XCTestCase {
         root.append(nodeA)
         XCTAssertEqual(nodeA.previousRow?.id, root.id)
     }
+    
+    func test_兄弟ノードか判定できる() {
+        root.append(nodeA)
+        root.append(nodeB)
+        XCTAssertTrue(nodeA.isSibling(nodeB))
+        XCTAssertTrue(nodeB.isSibling(nodeA))
+    }
+    
+    func test_親がない同士は兄弟ノードではない() {
+        XCTAssertFalse(nodeA.isSibling(nodeB))
+    }
 }
