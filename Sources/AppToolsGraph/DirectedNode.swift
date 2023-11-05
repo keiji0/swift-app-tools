@@ -38,6 +38,11 @@ extension DirectedNode {
         return current
     }
     
+    /// ターゲットが存在するか
+    public func hasTarget(_ targetId: ID) -> Bool {
+        targets.contains(where: { $0.id == targetId })
+    }
+    
     /// 子孫一覧を再帰的に取得するシーケンス
     /// 深さ優先で探索されます
     public var deepTargets: some Sequence<Self> {
