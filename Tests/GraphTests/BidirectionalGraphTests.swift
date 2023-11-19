@@ -71,7 +71,7 @@ final class BidirectionalGraphTests: XCTestCase {
         root.append(nodeA)
         nodeA.append(nodeB)
         XCTAssertEqual(
-            nodeB.ancestorPaths,
+            nodeB.ancestorPaths(origin: root.id).array,
             [
                 [root.id, nodeA.id, nodeB.id]
             ])
@@ -83,7 +83,7 @@ final class BidirectionalGraphTests: XCTestCase {
         nodeA.append(nodeC)
         nodeB.append(nodeC)
         XCTAssertEqual(
-            nodeC.ancestorPaths,
+            nodeC.ancestorPaths(origin: root.id).array,
             [
                 [ root.id, nodeA.id, nodeC.id],
                 [ root.id, nodeB.id, nodeC.id],
@@ -95,7 +95,7 @@ final class BidirectionalGraphTests: XCTestCase {
         nodeA.append(nodeB)
         root.append(nodeB)
         XCTAssertEqual(
-            nodeB.ancestorPaths,
+            nodeB.ancestorPaths(origin: root.id).array,
             [
                 [ root.id, nodeA.id, nodeB.id ],
                 [ root.id, nodeB.id],

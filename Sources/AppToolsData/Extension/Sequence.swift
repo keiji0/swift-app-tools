@@ -17,6 +17,11 @@ extension Sequence {
     public func spliced(_ seq: some Sequence<Element>) -> some Sequence<Element> {
         SplicedSequence(self, seq)
     }
+    
+    /// シーケンスを配列に変更
+    public var array: [Element] {
+        .init(self)
+    }
 }
 
 extension Sequence where Element : Equatable {

@@ -19,29 +19,26 @@ public protocol BidirectionalNode: DirectedNode {
 
 extension BidirectionalNode {
     /// 再帰的にSourcesを辿ったノードの一覧
-     public var deepSources: some Sequence<Self> {
+    public var deepSources: some Sequence<Self> {
          TraverseSequence(self, \Self.sources)
      }
     
-    /// ソースをルートまで辿っていき、このノードへの全てのパスを取得
-    public var ancestorPaths: [[ID]] {
-        func traverse(_ node: Self, _ visited: [Pair<ID, ID>]) -> [[ID]] {
-            if node.sources.isEmpty {
-                return [[node.id]]
-            }
-            
-            var paths = [[ID]]()
-            for source in node.sources {
-                let pair = Pair<ID, ID>(source.id, node.id)
-                if visited.contains(pair) {
-                    continue
-                }
-                for path in traverse(source, visited + [pair]) {
-                    paths.append(path + node.id)
+    /// 指定したノードまで辿っていきこのノードへのパスを取得
+    /// 同一のソースとペアになるパスは除外される
+    public func ancestorPaths(origin originNodeId: ID) -> some Sequence<[ID]> {
+        var visited = Set<Pair<ID, ID>>()
+        return TraverseSequenceWithPath(self) { node, _ in
+            if node.id == originNodeId {
+                [Self]()
+            } else {
+                node.sources.filter { source in
+                    visited.insert(.init(source.id, node.id)).inserted
                 }
             }
-            return paths
+        }.lazy.filter { path, node in
+            node.id == originNodeId
+        }.map{ path, node in
+            [node.id] + path.reversed()
         }
-        return traverse(self, [])
     }
 }

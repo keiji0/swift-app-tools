@@ -57,8 +57,8 @@ extension DirectedNode {
             return node.targets.filter { target in
                 visited.insert(target.id).inserted
             }
-        }.lazy.map{
-            $0.0 + $0.1.id
+        }.lazy.map{ path, node in
+            path + node.id
         }
     }
     
