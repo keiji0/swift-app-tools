@@ -64,6 +64,14 @@ public struct TraverseSequenceWithPath
         }
     }
     
+    public init(origin node: Node) where Targets == [Node] {
+        self.nextTargets = { _, _ in [] }
+        self.stack = [.init(
+            node: node,
+            path: [node.id]
+        )]
+    }
+    
     public mutating func next() -> (Path, Node)? {
         guard let next = stack.popLast() else {
             return nil

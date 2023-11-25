@@ -24,8 +24,15 @@ extension BidirectionalNode {
      }
     
     /// 指定したノードまで辿っていきこのノードへのパスを取得
-    /// 同一のソースとペアになるパスは除外される
+    /// * 同一のソースとペアになるパスは除外される
+    /// * originNodeIdから参照がなければパスには含まれない
     public func ancestorPaths(origin originNodeId: ID) -> some Sequence<[ID]> {
+        if originNodeId == id {
+            return TraverseSequenceWithPath(origin: self)
+                .lazy.filter{ _ in true }
+                .map{ path, _ in path }
+        }
+        
         var visited = Set<Pair<ID, ID>>()
         return TraverseSequenceWithPath(self) { node, _ in
             if node.id == originNodeId {
@@ -35,7 +42,7 @@ extension BidirectionalNode {
                     visited.insert(.init(source.id, node.id)).inserted
                 }
             }
-        }.lazy.filter { path, node in
+        }.lazy.filter{ path, node in
             node.id == originNodeId
         }.map{ path, node in
             [node.id] + path.reversed()

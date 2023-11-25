@@ -21,7 +21,7 @@ final class NodePathTests: XCTestCase {
     }
     
     func test_パスが長ければ内包されていない() {
-        XCTAssertTrue([1, 2].containsPath([1, 2, 3]))
+        XCTAssertFalse([1, 2, 3].containsPath([1, 2]))
     }
     
     func test_空パスは無条件に内包しているとみなす() {

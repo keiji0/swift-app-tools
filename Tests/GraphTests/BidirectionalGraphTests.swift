@@ -67,9 +67,23 @@ final class BidirectionalGraphTests: XCTestCase {
          )
      }
     
+    func test_ルートから祖先のパスは自分自身になる() {
+        root.append(nodeA)
+        XCTAssertEqual(
+            root.ancestorPaths(origin: root.id).array,
+            [
+                [root.id]
+            ])
+    }
+    
     func test_pathsオリジンから参照されているパスを取得できる() {
         root.append(nodeA)
         nodeA.append(nodeB)
+        XCTAssertEqual(
+            nodeA.ancestorPaths(origin: root.id).array,
+            [
+                [root.id, nodeA.id]
+            ])
         XCTAssertEqual(
             nodeB.ancestorPaths(origin: root.id).array,
             [
