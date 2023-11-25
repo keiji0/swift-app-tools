@@ -64,7 +64,13 @@ public struct TraverseSequenceWithPath
         }
     }
     
-    public init(origin node: Node) where Targets == [Node] {
+    public init(_ base: Node) where Node: DirectedNode, Targets == Node.Targets {
+        self.init(base) { node, _ in
+            node.targets
+        }
+    }
+    
+    init(origin node: Node) where Targets == [Node] {
         self.nextTargets = { _, _ in [] }
         self.stack = [.init(
             node: node,
