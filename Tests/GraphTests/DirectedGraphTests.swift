@@ -65,7 +65,7 @@ final class DirectedGraphTests: XCTestCase {
                 [ root.id, nodeC.id ],
                 [ root.id, nodeE.id ],
             ],
-            root.descendantPaths.map{ $0 }
+            root.uniqueDescendantPaths.map{ $0 }
         )
     }
     

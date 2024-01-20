@@ -50,8 +50,15 @@ extension DirectedNode {
     }
     
     /// 子孫パス一覧を取得
-    /// 一度出現した同一ノードは探索から除外されます。
     public var descendantPaths: some Sequence<[ID]> {
+        TraverseSequenceWithPath(self).lazy.map{ path, node in
+            path + node.id
+        }
+    }
+    
+    /// 子孫パス一覧を取得
+    /// 一度出現した同一ノードは探索から除外されます。
+    public var uniqueDescendantPaths: some Sequence<[ID]> {
         var visited = Set<ID>()
         return TraverseSequenceWithPath(self) { node, _ in
             return node.targets.filter { target in
