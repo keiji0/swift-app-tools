@@ -105,4 +105,14 @@ final class TreeNdoeTests: XCTestCase {
     func test_親がない同士は兄弟ノードではない() {
         XCTAssertFalse(nodeA.isSibling(nodeB))
     }
+    
+    func test_親からのインデックスを取得できる() {
+        root.append(nodeA)
+        root.append(nodeB)
+        root.append(nodeC)
+        XCTAssertEqual(root.indexFromParent, nil)
+        XCTAssertEqual(nodeA.indexFromParent, 0)
+        XCTAssertEqual(nodeB.indexFromParent, 1)
+        XCTAssertEqual(nodeC.indexFromParent, 2)
+    }
 }

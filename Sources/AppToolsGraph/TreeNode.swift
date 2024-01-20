@@ -30,6 +30,16 @@ extension TreeNode {
         }
     }
     
+    /// 親から見たインデックスを取得
+    public var indexFromParent: Targets.Index? {
+        guard let parent else {
+            return nil
+        }
+        return parent.targets.firstIndex {
+            $0.id == id
+        }
+    }
+    
     /// 兄弟かどうか？
     public func isSibling(_ node: Self) -> Bool {
         guard // 自分自身は兄弟ではない
