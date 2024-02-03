@@ -11,7 +11,7 @@ import XCTest
 
 final class DirectedGraphTests: XCTestCase {
     
-    final class Node: DirectedNode, CustomStringConvertible {
+    final class Node: DirectedNode, CustomStringConvertible, Equatable {
         let id: String
         var targets = [Node]()
         
@@ -20,6 +20,10 @@ final class DirectedGraphTests: XCTestCase {
         }
         
         var description: String { id }
+        
+        static func == (lhs: DirectedGraphTests.Node, rhs: DirectedGraphTests.Node) -> Bool {
+            lhs.id == rhs.id
+        }
     }
     
     let root = Node("root")
@@ -82,6 +86,15 @@ final class DirectedGraphTests: XCTestCase {
     func test_存在しない場合でも大丈夫() {
         importPatternA()
         XCTAssertTrue(!nodeA.isExists([nodeA.id, nodeC.id]))
+    }
+    
+    func test_パスからターゲット一覧を取得() {
+        nodeA.targets.append(nodeB)
+        nodeB.targets.append(nodeC)
+        XCTAssertEqual(nodeA.targets(["a"]).array, [])
+        XCTAssertEqual(nodeA.targets(["b"]).array, [nodeB])
+        XCTAssertEqual(nodeA.targets(["b", "c"]).array, [nodeB, nodeC])
+        XCTAssertEqual(nodeA.targets(["b", "a"]).array, [nodeB])
     }
     
     private func importPatternB() {

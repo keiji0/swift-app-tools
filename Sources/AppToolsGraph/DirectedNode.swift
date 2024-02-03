@@ -29,13 +29,18 @@ extension DirectedNode {
         
         var current = self
         while let child = itr.next() {
-            guard let res = current.targets.first(where: { $0.id == child }) else {
+            guard let res = current.targets.first(child) else {
                 return nil
             }
             current = res
         }
         
         return current
+    }
+    
+    /// パスを辿ったノード一覧を取得
+    public func targets(_ path: some Sequence<ID>) -> some Sequence<Self> {
+        PathNodeSequence(self, path)
     }
     
     /// ターゲットが存在するか
@@ -75,6 +80,12 @@ extension DirectedNode {
     }
 }
 
+extension Sequence where Element: DirectedNode {
+    func first(_ id: Element.ID) -> Element? {
+        first(where: { $0.id == id })
+    }
+}
+
 extension DirectedNode where Targets: BidirectionalCollection {
     /// 末尾のターゲットを再起的に辿った最後にあるターゲット
     /// ターゲットがなければ自身のノードが返る
@@ -83,5 +94,24 @@ extension DirectedNode where Targets: BidirectionalCollection {
             return self
         }
         return lastTarget.deepLastTarget
+    }
+}
+
+private struct PathNodeSequence<Node: DirectedNode, Path: Sequence<Node.ID>> : Sequence, IteratorProtocol {
+    var node: Node
+    var itr: Path.Iterator
+    
+    init(_ node: Node, _ path: Path) {
+        self.node = node
+        self.itr = path.makeIterator()
+    }
+    
+    mutating func next() -> Node? {
+        guard let nextTargetId = itr.next(),
+              let target = node.targets.first(nextTargetId) else {
+            return nil
+        }
+        self.node = target
+        return target
     }
 }
