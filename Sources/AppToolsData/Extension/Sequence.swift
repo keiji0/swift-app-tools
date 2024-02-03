@@ -22,6 +22,15 @@ extension Sequence {
     public var array: [Element] {
         .init(self)
     }
+    
+    /// 最初の要素と残りのシーケンスを取得
+    public var firstWithRest: (Element, some Sequence<Element>)? {
+        var itr = makeIterator()
+        let first = itr.next()
+        return first == nil
+            ? nil
+            : (first!, IteratorSequence(itr))
+    }
 }
 
 extension Sequence where Element : Equatable {
@@ -34,6 +43,18 @@ extension Sequence where Element : Equatable {
             }
         }
         return b.next() == nil ? true : false
+    }
+}
+
+private struct IteratorSequence<Iterator: IteratorProtocol>: Sequence, IteratorProtocol {
+    private var itr: Iterator
+    
+    init(_ itr: Iterator) {
+        self.itr = itr
+    }
+    
+    mutating func next() -> Iterator.Element? {
+        itr.next()
     }
 }
 

@@ -54,8 +54,8 @@ final class BidirectionalGraphTests: XCTestCase {
     
     func test_参照元を全て取得できる() {
          importPatternA()
-         XCTAssertTrue(Set([nodeA, nodeB1]).isSubset(of: .init(nodeC.deepSources)) )
-         XCTAssertTrue(Set([nodeA]).isSubset(of: .init(nodeB2.deepSources)) )
+         XCTAssertTrue(Set([nodeA, nodeB1]).isSubset(of: .init(nodeC.ancestors)) )
+         XCTAssertTrue(Set([nodeA]).isSubset(of: .init(nodeB2.ancestors)) )
      }
 
      func test_参照元を全て取得できる_循環していても大丈夫() {
@@ -63,14 +63,14 @@ final class BidirectionalGraphTests: XCTestCase {
          nodeA.append(nodeB)
          nodeB.append(nodeA)
          XCTAssertTrue(
-             Set([root, nodeA, nodeB]).isSubset(of: .init(nodeA.deepSources))
+             Set([root, nodeA, nodeB]).isSubset(of: .init(nodeA.ancestors))
          )
      }
     
     func test_ルートから祖先のパスは自分自身になる() {
         root.append(nodeA)
         XCTAssertEqual(
-            root.ancestorPaths(origin: root.id).array,
+            root.uniqueAncestorsPath(origin: root.id).array,
             [
                 [root.id]
             ])
@@ -80,12 +80,12 @@ final class BidirectionalGraphTests: XCTestCase {
         root.append(nodeA)
         nodeA.append(nodeB)
         XCTAssertEqual(
-            nodeA.ancestorPaths(origin: root.id).array,
+            nodeA.uniqueAncestorsPath(origin: root.id).array,
             [
                 [root.id, nodeA.id]
             ])
         XCTAssertEqual(
-            nodeB.ancestorPaths(origin: root.id).array,
+            nodeB.uniqueAncestorsPath(origin: root.id).array,
             [
                 [root.id, nodeA.id, nodeB.id]
             ])
@@ -97,7 +97,7 @@ final class BidirectionalGraphTests: XCTestCase {
         nodeA.append(nodeC)
         nodeB.append(nodeC)
         XCTAssertEqual(
-            nodeC.ancestorPaths(origin: root.id).array,
+            nodeC.uniqueAncestorsPath(origin: root.id).array,
             [
                 [ root.id, nodeA.id, nodeC.id],
                 [ root.id, nodeB.id, nodeC.id],
@@ -109,7 +109,7 @@ final class BidirectionalGraphTests: XCTestCase {
         nodeA.append(nodeB)
         root.append(nodeB)
         XCTAssertEqual(
-            nodeB.ancestorPaths(origin: root.id).array,
+            nodeB.uniqueAncestorsPath(origin: root.id).array,
             [
                 [ root.id, nodeA.id, nodeB.id ],
                 [ root.id, nodeB.id],

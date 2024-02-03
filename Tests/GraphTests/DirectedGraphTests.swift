@@ -45,7 +45,7 @@ final class DirectedGraphTests: XCTestCase {
         // 並びが一緒
         XCTAssertEqual(
             [ "b1", "c", "b2" ],
-            nodeA.deepTargets.map{ $0.id }
+            nodeA.descendants.map{ $0.id }
         )
     }
     
@@ -69,23 +69,17 @@ final class DirectedGraphTests: XCTestCase {
                 [ root.id, nodeC.id ],
                 [ root.id, nodeE.id ],
             ],
-            root.uniqueDescendantPaths.map{ $0 }
+            root.uniqueDescendantsPath.map{ $0 }
         )
     }
     
-    func test_パスからターゲットを取得_自身もターゲットとして含む() {
-        importPatternA()
-        XCTAssertTrue(root.isExists([root.id]))
-    }
-    
-    func test_パスの存在チェック_空パスは存在しない() {
-        importPatternA()
-        XCTAssertFalse(nodeA.isExists([]))
-    }
-    
-    func test_存在しない場合でも大丈夫() {
-        importPatternA()
-        XCTAssertTrue(!nodeA.isExists([nodeA.id, nodeC.id]))
+    func test_パスからターゲットを取得() {
+        root.targets.append(nodeA)
+        nodeA.targets.append(nodeB)
+        nodeB.targets.append(nodeC)
+        XCTAssertEqual(root.target([nodeA.id]), nodeA)
+        XCTAssertEqual(root.target([nodeA.id, nodeB.id]), nodeB)
+        XCTAssertNil(root.target([nodeA.id, nodeC.id]))
     }
     
     func test_パスからターゲット一覧を取得() {

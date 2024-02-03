@@ -8,7 +8,7 @@
 
 /// `TraverseSequence` は、与えられたノードから始めて、
 /// 巡回ノードを受け取り次の巡回先のノードを取得する関数に従った深さ優先探索で巡回するためのシーケンスです。
-public struct TraverseSequence
+struct TraverseSequence
 <Node: Identifiable, Targets: Sequence<Node>>
 : Sequence, IteratorProtocol
 {
@@ -16,12 +16,12 @@ public struct TraverseSequence
     private let nextTargets: (Node) -> Targets
     private var visited = Set<Node.ID>()
 
-    public init(_ base: Node, _ nextTargets: @escaping (Node) -> Targets) {
+    init(_ base: Node, _ nextTargets: @escaping (Node) -> Targets) {
         self.stack = .init(nextTargets(base).reversed())
         self.nextTargets = nextTargets
     }
     
-    public mutating func next() -> Node? {
+    mutating func next() -> Node? {
         while let next = stack.popLast() {
              if visited.insert(next.id).inserted {
                  stack.append(contentsOf: nextTargets(next).reversed())
@@ -36,13 +36,13 @@ public struct TraverseSequence
 /// 巡回ノードを受け取り次の巡回先のノードを取得する関数に従った深さ優先探索で巡回するためのシーケンスです。
 ///  `Sequence.Element`にはパスとノードが入ります。
 ///  パスはノードへのパスでノード自体は含まれません。
-public struct TraverseSequenceWithPath
+struct TraverseSequenceWithPath
 <Node: Identifiable, Targets: Sequence<Node>>
 : Sequence, IteratorProtocol
 {
-    public typealias Path = [Node.ID]
-    public typealias NextTargets = KeyPath<Node, Targets>
-    public typealias NextTargetsWithPath = (Node, Path) -> Targets
+    typealias Path = [Node.ID]
+    typealias NextTargets = KeyPath<Node, Targets>
+    typealias NextTargetsWithPath = (Node, Path) -> Targets
     
     private var stack: [Target]
     private let nextTargets: NextTargetsWithPath
@@ -52,19 +52,19 @@ public struct TraverseSequenceWithPath
         let path: Path
     }
 
-    public init(_ base: Node, _ nextTargets: @escaping NextTargetsWithPath) {
+    init(_ base: Node, _ nextTargets: @escaping NextTargetsWithPath) {
         self.nextTargets = nextTargets
         self.stack = .init()
         append([], .init(node: base, path: [ ]))
     }
     
-    public init(_ base: Node, _ nextTargets: NextTargets) {
+    init(_ base: Node, _ nextTargets: NextTargets) {
         self.init(base) { node, _ in
             node[keyPath: nextTargets]
         }
     }
     
-    public init(_ base: Node) where Node: DirectedNode, Targets == Node.Targets {
+    init(_ base: Node) where Node: DirectedNode, Targets == Node.Targets {
         self.init(base) { node, _ in
             node.targets
         }
@@ -78,7 +78,7 @@ public struct TraverseSequenceWithPath
         )]
     }
     
-    public mutating func next() -> (Path, Node)? {
+    mutating func next() -> (Path, Node)? {
         guard let next = stack.popLast() else {
             return nil
         }

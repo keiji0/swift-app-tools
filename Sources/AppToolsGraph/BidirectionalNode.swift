@@ -19,14 +19,14 @@ public protocol BidirectionalNode: DirectedNode {
 
 extension BidirectionalNode {
     /// 再帰的にSourcesを辿ったノードの一覧
-    public var deepSources: some Sequence<Self> {
+    public var ancestors: some Sequence<Self> {
          TraverseSequence(self, \Self.sources)
-     }
+    }
     
     /// 指定したノードまで辿っていきこのノードへのパスを取得
     /// * 同一のソースとペアになるパスは除外される
     /// * originNodeIdから参照がなければパスには含まれない
-    public func ancestorPaths(origin originNodeId: ID) -> some Sequence<[ID]> {
+    public func uniqueAncestorsPath(origin originNodeId: ID) -> some Sequence<[ID]> {
         if originNodeId == id {
             return TraverseSequenceWithPath(origin: self)
                 .lazy.filter{ _ in true }

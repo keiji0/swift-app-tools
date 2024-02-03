@@ -27,8 +27,11 @@ extension Sequence where Element: NodeId {
     /// 正しいパスかどうか検証
     /// - Parameter root: パスの起点となるノード
     /// - Returns: 正しいばあいはtrueを返す
-    public func isValid<Node: DirectedNode>(_ root: Node) -> Bool where Node.ID == Element {
-        root.isExists(self)
+    public func isValid<Node: DirectedNode>(_ origin: Node) -> Bool where Node.ID == Element {
+        guard let (first, rest) = firstWithRest, first == origin.id else {
+            return false
+        }
+        return origin.hasTarget(rest)
     }
 }
 
