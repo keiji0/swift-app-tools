@@ -107,9 +107,10 @@ extension TreeNode where Targets: BidirectionalCollection {
     
     /// ツリーを行に見立てた場合の前の行となるノードを取得
     public var previousRow: Self? {
-        // 前の兄弟から取得
-        previousSibling?.deepLastTarget
-        // なければ親から取得
-        ?? parent
+        if let previousSibling {
+            previousSibling.lastDescendant ?? previousSibling
+        } else {
+            parent
+        }
     }
 }

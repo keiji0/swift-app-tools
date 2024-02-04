@@ -79,13 +79,17 @@ extension Sequence where Element: DirectedNode {
 }
 
 extension DirectedNode where Targets: BidirectionalCollection {
-    /// 末尾のターゲットを再起的に辿った最後にあるターゲット
-    /// ターゲットがなければ自身のノードが返る
-    public var deepLastTarget: Self? {
-        guard let lastTarget = targets.last else {
-            return self
+    /// 深さ優先で末尾の子孫ターゲットを取得
+    public var lastDescendant: Self? {
+        targets.last?.innerLastDescendant
+    }
+    
+    private var innerLastDescendant: Self? {
+        if let lastTarget = targets.last {
+            lastTarget.innerLastDescendant
+        } else {
+            self
         }
-        return lastTarget.deepLastTarget
     }
 }
 
