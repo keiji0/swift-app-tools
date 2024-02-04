@@ -19,6 +19,11 @@ public protocol DirectedNode : Node {
 }
 
 extension DirectedNode {
+    /// 自身を含めたパスからノードが存在するか判定
+    public func isExists(_ path: some Sequence<ID>) -> Bool {
+        node(path) != nil
+    }
+    
     /// 自身を含めたパスからtargetsを辿りながらノードを取得
     public func node(_ path: some Sequence<ID>) -> Self? {
         guard let (first, rest) = path.firstWithRest,

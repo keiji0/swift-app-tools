@@ -86,6 +86,7 @@ final class DirectedGraphTests: XCTestCase {
         root.targets.append(nodeA)
         nodeA.targets.append(nodeB)
         nodeB.targets.append(nodeC)
+        XCTAssertEqual(root.node([root.id]), root)
         XCTAssertEqual(root.node([root.id, nodeA.id]), nodeA)
         XCTAssertNil(root.node([nodeA.id]))
     }
