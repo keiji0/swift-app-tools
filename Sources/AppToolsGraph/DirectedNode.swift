@@ -19,6 +19,15 @@ public protocol DirectedNode : Node {
 }
 
 extension DirectedNode {
+    /// 自身を含めたパスからtargetsを辿りながらノードを取得
+    public func node(_ path: some Sequence<ID>) -> Self? {
+        guard let (first, rest) = path.firstWithRest,
+              first == id else {
+            return nil
+        }
+        return target(rest)
+    }
+    
     /// 指定パスからノードを取得
     public func target(_ path: some Sequence<ID>) -> Self? {
         var current = self

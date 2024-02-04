@@ -82,6 +82,14 @@ final class DirectedGraphTests: XCTestCase {
         XCTAssertEqual(root.lastDescendant, nodeC)
     }
     
+    func test_パスからノードを取得() {
+        root.targets.append(nodeA)
+        nodeA.targets.append(nodeB)
+        nodeB.targets.append(nodeC)
+        XCTAssertEqual(root.node([root.id, nodeA.id]), nodeA)
+        XCTAssertNil(root.node([nodeA.id]))
+    }
+    
     func test_パスからターゲットを取得() {
         root.targets.append(nodeA)
         nodeA.targets.append(nodeB)
