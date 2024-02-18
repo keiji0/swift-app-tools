@@ -37,6 +37,9 @@ let package = Package(
         .library(
             name: "AppToolsPrimitiveUI",
             targets: ["AppToolsPrimitiveUI"]),
+        .library(
+            name: "AppToolsTextView",
+            targets: ["AppToolsTextView"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -101,6 +104,17 @@ let package = Package(
             dependencies: [
                 "AppToolsPrimitiveUI",
                 "AppToolsData",
+            ]),
+        
+        .target(
+            name: "AppToolsTextView",
+            dependencies: ["AppToolsData"]),
+        .testTarget(
+            name: "TextViewTests",
+            dependencies: [
+                "AppToolsTextView",
+                "AppToolsCrossPlatform",
+                "AppToolsPrimitiveUI",
             ]),
     ]
 )
