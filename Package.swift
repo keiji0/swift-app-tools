@@ -34,6 +34,9 @@ let package = Package(
         .library(
             name: "AppToolsSQLite",
             targets: ["AppToolsSQLite"]),
+        .library(
+            name: "AppToolsPrimitiveUI",
+            targets: ["AppToolsPrimitiveUI"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -85,6 +88,7 @@ let package = Package(
         .target(
             name: "AppToolsCoreData",
             dependencies: ["AppToolsData"]),
+        
         .target(
             name: "AppToolsCrossPlatform",
             dependencies: []),
@@ -98,6 +102,5 @@ let package = Package(
                 "AppToolsPrimitiveUI",
                 "AppToolsData",
             ]),
-
     ]
 )
