@@ -88,5 +88,16 @@ let package = Package(
         .target(
             name: "AppToolsCrossPlatform",
             dependencies: []),
+        
+        .target(
+            name: "AppToolsPrimitiveUI",
+            dependencies: ["AppToolsData"]),
+        .testTarget(
+            name: "PrimitiveUITests",
+            dependencies: [
+                "AppToolsPrimitiveUI",
+                "AppToolsData",
+            ]),
+
     ]
 )
