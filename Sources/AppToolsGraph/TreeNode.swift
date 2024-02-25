@@ -16,6 +16,10 @@ public protocol TreeNode: BidirectionalNode {
 }
 
 extension TreeNode {
+    public var isRoot: Bool {
+        parent == nil
+    }
+    
     /// リーフノードか？
     public var isLeaf: Bool {
         targets.isEmpty
