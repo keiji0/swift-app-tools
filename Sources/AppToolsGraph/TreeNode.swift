@@ -76,7 +76,7 @@ extension TreeNode {
     }
 }
 
-extension TreeNode where Targets: BidirectionalCollection {
+extension TreeNode where Targets: BidirectionalCollection, Targets.Element == Self {
     /// 前の兄弟ノードを取得。前というのはTargetsのコレクションでいうところのAfterにあたる
     public var previousSibling: Self? {
         guard let parent,
