@@ -35,11 +35,11 @@ public protocol IdentifiedTrasactionable: Trasactionable {
 }
 
 extension IdentifiedTrasactionable {
-    func begin(_ block: () throws -> Void) throws {
+    public func begin(_ block: () throws -> Void) throws {
         try begin(.init(), block)
     }
     
-    func beginAndReturn<T>(_ transactionId: TransactionId, _ block: () throws -> T) throws -> T {
+    public func beginAndReturn<T>(_ transactionId: TransactionId, _ block: () throws -> T) throws -> T {
         var res: T?
         try begin(transactionId) {
             res = try block()
