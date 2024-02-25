@@ -24,3 +24,26 @@ extension Trasactionable {
         return res!
     }
 }
+
+public protocol TransactionIdentifiable: Identifiable {
+    init()
+}
+
+public protocol IdentifiedTrasactionable: Trasactionable {
+    associatedtype TransactionId: TransactionIdentifiable
+    func begin(_ transactionId: TransactionId, _ block: () throws -> Void) throws
+}
+
+extension IdentifiedTrasactionable {
+    func begin(_ block: () throws -> Void) throws {
+        try begin(.init(), block)
+    }
+    
+    func begin<T>(_ transactionId: TransactionId, _ block: () throws -> T) throws -> T {
+        var res: T?
+        try begin(transactionId) {
+            res = try block()
+        }
+        return res!
+    }
+}
