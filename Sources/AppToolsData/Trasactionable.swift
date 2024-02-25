@@ -16,7 +16,7 @@ public protocol Trasactionable : AnyObject {
 
 extension Trasactionable {
     /// トランザクション開始(返り値あり)
-    public func begin<T>(_ block: () throws -> T) throws -> T {
+    public func beginAndReturn<T>(_ block: () throws -> T) throws -> T {
         var res: T?
         try begin {
             res = try block()
@@ -39,7 +39,7 @@ extension IdentifiedTrasactionable {
         try begin(.init(), block)
     }
     
-    func begin<T>(_ transactionId: TransactionId, _ block: () throws -> T) throws -> T {
+    func beginAndReturn<T>(_ transactionId: TransactionId, _ block: () throws -> T) throws -> T {
         var res: T?
         try begin(transactionId) {
             res = try block()
