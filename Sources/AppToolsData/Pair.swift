@@ -22,3 +22,6 @@ extension Pair : Comparable where First: Comparable, Second: Comparable {
         lhs.first < rhs.first && lhs.second < rhs.second
     }
 }
+
+extension Pair : Codable where First: Codable, Second: Codable {
+}
