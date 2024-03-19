@@ -125,3 +125,38 @@ private struct PathNodeSequence<Node: DirectedNode, Path: Sequence<Node.ID>> : S
         return target
     }
 }
+
+extension DirectedNode where Self: ContentNode, Content: Equatable {
+    /// 比較可能なコンテンツを辿って最後に見つかったパスを取得
+    /// targets内に同じターゲットが見つかっても最初に見つかったターゲットを辿っていく
+    /// contentsがなくなった時ノードが見つからなければnilが返る
+    public func path(contents: some Sequence<Content>) -> (some Collection<ID>)? {
+        var res = [Self]([self])
+        for content in contents {
+            let cur = res.last!
+            guard let node = cur.targets.first(where: { $0.content == content }) else {
+                return Optional<[ID]>.none
+            }
+            res.append(node)
+        }
+        return res.dropFirst().map{ $0.id }
+    }
+    
+    public func path(_ content: Content...) -> (some Collection<ID>)? {
+        path(contents: content)
+    }
+
+    public func target(contents path: some Sequence<Content>) -> Self? {
+        guard let path = self.path(contents: path) else {
+            return nil
+        }
+        return node(path)
+    }
+    
+    public func target(_ content: Content...) -> Self? {
+        guard let path = self.path(contents: content) else {
+            return nil
+        }
+        return target(path)
+    }
+}
