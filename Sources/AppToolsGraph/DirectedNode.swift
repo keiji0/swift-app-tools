@@ -150,13 +150,10 @@ extension DirectedNode where Self: ContentNode, Content: Equatable {
         guard let path = self.path(contents: path) else {
             return nil
         }
-        return node(path)
+        return target(path)
     }
     
     public func target(_ content: Content...) -> Self? {
-        guard let path = self.path(contents: content) else {
-            return nil
-        }
-        return target(path)
+        target(contents: content)
     }
 }
