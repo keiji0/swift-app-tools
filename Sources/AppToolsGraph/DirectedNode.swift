@@ -126,15 +126,15 @@ private struct PathNodeSequence<Node: DirectedNode, Path: Sequence<Node.ID>> : S
     }
 }
 
-extension DirectedNode where Self: ContentNode, Content: Equatable {
+extension DirectedNode where Self: StringKeyable {
     /// 比較可能なコンテンツを辿って最後に見つかったパスを取得
     /// targets内に同じターゲットが見つかっても最初に見つかったターゲットを辿っていく
     /// contentsがなくなった時ノードが見つからなければnilが返る
-    public func path(contents: some Sequence<Content>) -> (some Collection<ID>)? {
+    public func path(keys: some Sequence<String>) -> (some Collection<ID>)? {
         var res = [Self]([self])
-        for content in contents {
+        for key in keys {
             let cur = res.last!
-            guard let node = cur.targets.first(where: { $0.content == content }) else {
+            guard let node = cur.targets.first(where: { $0.stringKey == key }) else {
                 return Optional<[ID]>.none
             }
             res.append(node)
@@ -142,18 +142,18 @@ extension DirectedNode where Self: ContentNode, Content: Equatable {
         return res.dropFirst().map{ $0.id }
     }
     
-    public func path(_ content: Content...) -> (some Collection<ID>)? {
-        path(contents: content)
+    public func path(_ keys: String...) -> (some Collection<ID>)? {
+        path(keys: keys)
     }
 
-    public func target(contents path: some Sequence<Content>) -> Self? {
-        guard let path = self.path(contents: path) else {
+    public func target(keys path: some Sequence<String>) -> Self? {
+        guard let path = self.path(keys: path) else {
             return nil
         }
         return target(path)
     }
     
-    public func target(_ content: Content...) -> Self? {
-        target(contents: content)
+    public func target(_ keys: String...) -> Self? {
+        target(keys: keys)
     }
 }
