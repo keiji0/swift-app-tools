@@ -108,7 +108,10 @@ let package = Package(
         
         .target(
             name: "AppToolsTextView",
-            dependencies: ["AppToolsData"]),
+            dependencies: [
+                "AppToolsData",
+                "AppToolsPrimitiveUI",
+            ]),
         .testTarget(
             name: "TextViewTests",
             dependencies: [
