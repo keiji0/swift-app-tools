@@ -9,7 +9,7 @@
 import Foundation
 import AppToolsData
 
-extension NSUbiquitousKeyValueStore : KeyValueStorable {
+extension Foundation.NSUbiquitousKeyValueStore : AppToolsData.KeyValueStorable {
     public func get(forKey key: String) -> Any? {
         object(forKey: key)
     }

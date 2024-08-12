@@ -9,7 +9,7 @@
 import XCTest
 @testable import AppToolsGraph
 
-extension Int: NodeId{}
+extension Int: @retroactive NodeId{}
 
 final class NodePathTests: XCTestCase {
     func test_同じパスは内包されている() {

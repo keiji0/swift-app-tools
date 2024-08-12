@@ -9,7 +9,7 @@
 import XCTest
 @testable import AppToolsGraph
 
-extension String: NodeId {}
+extension String: @retroactive NodeId {}
 
 final class BidirectionalGraphTests: XCTestCase {
     

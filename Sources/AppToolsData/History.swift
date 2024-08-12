@@ -14,11 +14,11 @@ import Combine
 public final class History<Item> {
     /// 現在のアイテム
     /// アプリケーションはこの値を監視することでUIへ反映します
-    @Published private (set) public var current: Item
+    @Published private(set) public var current: Item
     /// 戻るアイテム一覧
-    private (set) public var backQueue = [Item]()
+    public private(set) var backQueue = [Item]()
     /// 進むアイテム一覧
-    private (set) public var forwardQueue = [Item]()
+    public private(set) var forwardQueue = [Item]()
     
     /// 生成
     /// - Parameter current: 最初にアイテムがあれば設定

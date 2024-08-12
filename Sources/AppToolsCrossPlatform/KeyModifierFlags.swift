@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// 修飾キーを扱いやすくしたフラグ一覧
 public struct KeyModifierFlags : OptionSet {
     
     public let rawValue: UInt

@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import XCTest
+import Testing
 @testable import AppToolsGraph
-
 
 private final class Node: TreeNode {
     let id: String
@@ -27,21 +26,21 @@ private final class Node: TreeNode {
     }
 }
 
-final class TreeNdoeTests: XCTestCase {
+struct TreeNdoeTests {
     
-    func test_Parentを持つ() {
+    @Test func Parentを持つ() {
         let a = Node("a", .init("b"))
-        XCTAssertEqual(a.parent?.id, "b")
+        #expect(a.parent?.id == "b")
     }
     
-    func test_Parentは空の場合もある() {
+    @Test func Parentは空の場合もある() {
         let a = Node("a")
-        XCTAssertNil(a.parent)
+        #expect(a.parent == nil)
     }
     
-    func test_双方向ノードとしても機能する() {
+    @Test func 双方向ノードとしても機能する() {
         let a = Node("a", .init("b"))
-        XCTAssertEqual(a.sources.map{$0.id}, ["b"])
+        #expect(a.sources.map{$0.id} == ["b"])
     }
     
     private let root = Node("root")
@@ -50,69 +49,69 @@ final class TreeNdoeTests: XCTestCase {
     private let nodeC = Node("c")
     private let nodeE = Node("e")
     
-    func test_前の兄弟ノードを取得() {
+    @Test func 前の兄弟ノードを取得() {
         root.append(nodeA)
         root.append(nodeB)
         
-        XCTAssertNil(nodeA.previousSibling)
-        XCTAssertEqual(nodeB.previousSibling?.id, nodeA.id)
+        #expect(nodeA.previousSibling == nil)
+        #expect(nodeB.previousSibling?.id == nodeA.id)
     }
     
-    func test_次の兄弟ノードを取得() {
+    @Test func 次の兄弟ノードを取得() {
         root.append(nodeA)
         root.append(nodeB)
         
-        XCTAssertEqual(nodeA.nextSibling?.id, nodeB.id)
-        XCTAssertNil(nodeB.nextSibling)
+        #expect(nodeA.nextSibling?.id == nodeB.id)
+        #expect(nodeB.nextSibling == nil)
     }
     
-    func test_次の行ノードを取得() {
+    @Test func 次の行ノードを取得() {
         root.append(nodeA)
         nodeA.append(nodeB)
         root.append(nodeC)
         
-        XCTAssertEqual(nodeA.nextRow?.id, nodeB.id)
-        XCTAssertEqual(nodeB.nextRow?.id, nodeC.id)
-        XCTAssertNil(Node("dummy").nextRow)
+        #expect(nodeA.nextRow?.id == nodeB.id)
+        #expect(nodeB.nextRow?.id == nodeC.id)
+        #expect(Node("dummy").nextRow == nil)
     }
     
-    func test_前の行ノードを取得_単純に前の兄弟() {
+    @Test func 前の行ノードを取得_単純に前の兄弟() {
         root.append(nodeA)
         root.append(nodeB)
-        XCTAssertEqual(nodeB.previousRow?.id, nodeA.id)
+        #expect(nodeB.previousRow?.id == nodeA.id)
     }
     
-    func test_前の行ノードを取得_前の兄弟が子供を持っていた() {
+    @Test func 前の行ノードを取得_前の兄弟が子供を持っていた() {
         root.append(nodeA)
         nodeA.append(nodeB)
         nodeB.append(nodeE)
         root.append(nodeC)
-        XCTAssertEqual(nodeC.previousRow?.id, nodeE.id)
+        #expect(nodeC.previousRow?.id == nodeE.id)
     }
     
-    func test_前の行ノードを取得_前の兄弟がいないので親を取得() {
+    @Test func 前の行ノードを取得_前の兄弟がいないので親を取得() {
         root.append(nodeA)
-        XCTAssertEqual(nodeA.previousRow?.id, root.id)
+        #expect(nodeA.previousRow?.id == root.id)
     }
     
-    func test_兄弟ノードか判定できる() {
+    @Test func 兄弟ノードか判定できる() {
         root.append(nodeA)
         root.append(nodeB)
-        XCTAssertTrue(nodeA.isSibling(nodeB))
-        XCTAssertTrue(nodeB.isSibling(nodeA))
+        #expect(nodeA.isSibling(nodeB))
+        #expect(nodeB.isSibling(nodeA))
     }
     
-    func test_親がない同士は兄弟ノードではない() {
-        XCTAssertFalse(nodeA.isSibling(nodeB))
+    @Test func 親がない同士は兄弟ノードではない() {
+        #expect(!nodeA.isSibling(nodeB))
     }
     
-    func test_親からのインデックスを取得できる() {
+    @Test func 親からのインデックスを取得できる() {
         root.append(nodeA)
         root.append(nodeB)
         root.append(nodeC)
-        XCTAssertEqual(root.indexFromParent, nil)
-        XCTAssertEqual(nodeA.indexFromParent, 0)
-        XCTAssertEqual(nodeB.indexFromParent, 1)
-        XCTAssertEqual(nodeC.indexFromParent, 2)
+        #expect(root.indexFromParent == nil)
+        #expect(nodeA.indexFromParent == 0)
+        #expect(nodeB.indexFromParent == 1)
+        #expect(nodeC.indexFromParent == 2)
     }
 }
