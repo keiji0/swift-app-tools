@@ -12,7 +12,7 @@ import AppKit
 import AppToolsCrossPlatform
 
 extension NSEvent.ModifierFlags {
-    var keyModifierFlags: KeyModifierFlags {
+    public var keyModifierFlags: KeyModifierFlags {
         var flags = KeyModifierFlags()
         if contains(.capsLock) { flags.insert(.capsLock) }
         if contains(.shift) { flags.insert(.shift) }
