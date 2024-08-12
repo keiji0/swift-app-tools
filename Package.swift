@@ -40,6 +40,9 @@ let package = Package(
         .library(
             name: "AppToolsTextView",
             targets: ["AppToolsTextView"]),
+        .library(
+            name: "AppToolsUI",
+            targets: ["AppToolsUI"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
