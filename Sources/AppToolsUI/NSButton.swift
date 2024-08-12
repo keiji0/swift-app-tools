@@ -25,7 +25,7 @@ private var key = 0
 }
 
 extension NSButton {
-    func addAction(_ closure: @escaping()->()) {
+    public func addAction(_ closure: @escaping()->()) {
         let sleeve = ClosureSleeve(closure)
         objc_setAssociatedObject(self, &key, sleeve, .OBJC_ASSOCIATION_RETAIN)
         target = sleeve

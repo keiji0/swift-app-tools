@@ -52,7 +52,7 @@ extension NSView {
     
     /// 背景色を設定する
     /// 主にデバッグ用
-    @IBInspectable var backgroundColor: NSColor? {
+    @IBInspectable public var backgroundColor: NSColor? {
         get {
             guard let layer = layer, let backgroundColor = layer.backgroundColor else {return nil}
             return NSColor(cgColor: backgroundColor)
