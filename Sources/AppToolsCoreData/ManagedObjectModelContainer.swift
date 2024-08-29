@@ -27,8 +27,13 @@ public final class ManagedObjectModelContainer {
     /// ManagedObjectModelは複数生成できないようなのでキャッシュする
     private var cacheMap = [URL: NSManagedObjectModel]()
     
+    private static var lock = NSLock()
+
     /// ManageObjectを取得
     private func model(_ url: URL) -> NSManagedObjectModel {
+        Self.lock.lock()
+        defer { Self.lock.unlock() }
+        
         if let model = self.cacheMap[url] {
             return model
         } else {
